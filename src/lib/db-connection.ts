@@ -1,12 +1,12 @@
 import { Pool } from "pg";
+const { DBUSER, DBHOST, DBNAME, DBPASS, DBPORT } = process.env;
 
-//testing purposes
 const pool = new Pool({
   user: DBUSER,
   host: DBHOST,
   database: DBNAME,
   password: DBPASS,
-  port: DBPORT,
+  port: Number(DBPORT),
 });
 
 export { pool };

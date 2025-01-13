@@ -4,4 +4,19 @@ INSERT INTO answer (question_id, answer_text) values (1, 'red'), (1, 'orange'), 
 
 INSERT INTO answer (question_id, answer_text) values (2, 'happy'), (2, 'sad'), (2, 'angry'), (2, 'excited'), (2, 'scared'), (2, 'silly'), (2, 'bored'), (2, 'nervous'), (2, 'tired');
 
-INSERT INTO answer (question_id, answer_text) values (3, 'sunny'), (3, 'cloudy'), (3, 'rainy'), (3, 'snowy'), (3, 'foggy'), (3, 'windy'), (3, 'hot'), (3, 'cold');  
+INSERT INTO answer (question_id, answer_text) values (3, 'sunny'), (3, 'cloudy'), (3, 'rainy'), (3, 'snowy'), (3, 'foggy'), (3, 'windy'), (3, 'hot'), (3, 'cold');
+
+INSERT INTO phys_sym (symptom_name) VALUES 
+('Fever'),
+('Coughing'),
+('Runny nose'),
+('Stuffy nose'),
+('Vomiting'),
+('Diarrhea'),
+('Rash'),
+('Sore throat'),
+('Headache'),
+('Stomachache'),
+('Constipation'),
+('Dry skin'),
+('Sneezing');
