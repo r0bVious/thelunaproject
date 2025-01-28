@@ -1,7 +1,8 @@
 "use client";
 import { useState } from "react";
 import { Answer, Question } from "@/types";
-import AnswerButton from "@/components/ui/AnswerButton";
+import KidAnswerButton from "@/components/ui/KidAnswerButton";
+import { useUserContext } from "@/contexts/UserContext";
 
 interface KidsSelectionProps {
   questions: Question[];
@@ -9,6 +10,7 @@ interface KidsSelectionProps {
 }
 
 const KidsSelection = ({ questions, answers }: KidsSelectionProps) => {
+  const { userId } = useUserContext();
   const [currentQuestionId, setCurrentQuestionId] = useState(1);
   const currentQuestion = questions[currentQuestionId - 1];
 
@@ -19,21 +21,21 @@ const KidsSelection = ({ questions, answers }: KidsSelectionProps) => {
   };
 
   return (
-    <div>
+    <div className="p-5 flex flex-col h-full w-full">
       <h1>
         {currentQuestion.question_text} - question {currentQuestionId}
       </h1>
-      <section className="flex">
+      <section className={``}>
         {answers.map((answer) =>
           answer.question_id === currentQuestionId ? (
-            <AnswerButton
+            <KidAnswerButton
+              userId={userId}
               key={answer.answer_id}
-              kidUser={true}
               questionId={answer.question_id}
               answerId={answer.answer_id}
-            >
-              {answer.answer_text}
-            </AnswerButton>
+              answerText={answer.answer_text}
+              buttonStyles={`w-full py-5`}
+            />
           ) : null
         )}
       </section>

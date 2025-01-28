@@ -3,13 +3,16 @@ import { insertPhysRes } from "../../controllers/db-controllers";
 
 export async function POST(req: NextRequest) {
   try {
-    const inData = await req.json();
+    const body = await req.json();
 
-    if (!inData.userId) {
-      return NextResponse.json({ error: "User ID Required" }, { status: 400 });
+    if (!body.formData || !body.formData.userId) {
+      return NextResponse.json(
+        { error: "User ID is required" },
+        { status: 400 }
+      );
     }
 
-    await insertPhysRes(inData);
+    await insertPhysRes(body.formData);
     return NextResponse.json({ message: "Insert successful" });
   } catch (error) {
     const errMessage = error instanceof Error ? error.message : "Unknown error";

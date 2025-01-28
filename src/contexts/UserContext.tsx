@@ -1,21 +1,20 @@
 "use client";
-import { createContext, ReactNode, useContext } from "react";
+import { createContext, ReactNode, useContext, useState } from "react";
 
 interface UserContextType {
-  userId: number;
+  userId: number | null;
+  setUserId: (id: number) => void;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
-export const UserProvider = ({
-  userId,
-  children,
-}: {
-  userId: number;
-  children: ReactNode;
-}) => {
+export const UserProvider = ({ children }: { children: ReactNode }) => {
+  const [userId, setUserId] = useState<number | null>(1);
+
   return (
-    <UserContext.Provider value={{ userId }}>{children}</UserContext.Provider>
+    <UserContext.Provider value={{ userId, setUserId }}>
+      {children}
+    </UserContext.Provider>
   );
 };
 

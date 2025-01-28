@@ -1,25 +1,5 @@
 import { pool } from "@/lib/db-connection";
-import { NextResponse } from "next/server";
-
-interface KidResProps {
-  userId: number;
-  questionId: number;
-  answerId: number;
-}
-
-interface PhysResProps {
-  userId: number;
-  height?: number;
-  weight?: number;
-  hoursSlept?: number;
-  condition?: number;
-}
-
-interface SymptomResProps {
-  userId: number;
-  symId: number;
-  severityScale: number;
-}
+import { KidResProps, PhysResProps, LoginProps } from "@/types";
 
 const getQsAndAs = async () => {
   try {
@@ -54,44 +34,100 @@ const insertPhysRes = async ({
   weight,
   hoursSlept,
   condition,
+  symptoms,
 }: PhysResProps) => {
   try {
-    const data: Record<string, number> = { user_id: userId };
+    const dailyPhysData = {
+      user_id: userId,
+      ...(height != null && { height_cm: height }),
+      ...(weight != null && { weight_kg: weight }),
+      ...(hoursSlept != null && { hours_slept: hoursSlept }),
+      ...(condition != null && { condition_scale: condition }),
+    };
 
-    if (height !== undefined) data.height_cm = height;
-    if (weight !== undefined) data.weight_kg = weight;
-    if (hoursSlept !== undefined) data.hours_slept = hoursSlept;
-    if (condition !== undefined) data.condition_scale = condition;
+    if (Object.keys(dailyPhysData).length > 1) {
+      const dailyPhysColumns = Object.keys(dailyPhysData).join(", ");
+      const dailyPhysValues = Object.values(dailyPhysData);
+      const dailyPhysPlaceholders = dailyPhysValues
+        .map((_, index) => `$${index + 1}`)
+        .join(", ");
 
-    const columns = Object.keys(data).join(", ");
-    const values = Object.values(data).filter((value) => value !== undefined);
-    const placeholders = values.map((_, index) => `$${index + 1}`).join(", ");
+      const dailyPhysQuery = `INSERT INTO daily_phys (${dailyPhysColumns}) VALUES (${dailyPhysPlaceholders})`;
+      const dailyPhysResult = await pool.query(dailyPhysQuery, dailyPhysValues);
+    }
 
-    const query = `INSERT INTO physical_responses (${columns}) VALUES (${placeholders})`;
+    if (symptoms && Object.keys(symptoms).length > 0) {
+      const symptomEntries = Object.entries(symptoms);
+      const symptomColumns = ["user_id", "phys_sym_id", "severity_scale"];
+      const symptomValues = symptomEntries.map(([key, value]) => [
+        userId,
+        Number(key),
+        value,
+      ]);
+      const flatSymptomValues = symptomValues.flat();
+      const symptomPlaceholders = symptomValues
+        .map(
+          (_, index) =>
+            `($${index * 3 + 1}, $${index * 3 + 2}, $${index * 3 + 3})`
+        )
+        .join(", ");
 
-    const insertResult = await pool.query(query, values);
-    console.log("Insert successful:", insertResult);
+      const symptomQuery = `INSERT INTO user_symptoms (${symptomColumns.join(
+        ", "
+      )}) VALUES ${symptomPlaceholders}`;
+      const symptomResult = await pool.query(symptomQuery, flatSymptomValues);
+
+      console.log("Symptoms insert successful:", symptomResult);
+    }
   } catch (error) {
     console.error("Insert failure:", error);
     throw new Error("Failed to insert data");
   }
 };
 
-const insertSymptoms = async ({
-  userId,
-  symId,
-  severityScale,
-}: SymptomResProps) => {
+const insertSymptoms = async (
+  symptoms: { userId: number; symId: number; severityScale: number }[]
+) => {
   try {
-    const insertResult = await pool.query(
-      "INSERT INTO user_symptoms (user_id, phys_sym_id, severity_scale) VALUES ($1, $2, $3)",
-      [userId, symId, severityScale]
-    );
-    console.log("Insert successful:", insertResult);
+    const values = symptoms
+      .map((_, i) => `($1, $${i * 2 + 2}, $${i * 2 + 3})`)
+      .join(", ");
+
+    const params = symptoms.flatMap(({ userId, symId, severityScale }) => [
+      userId,
+      symId,
+      severityScale,
+    ]);
+
+    const query = `
+      INSERT INTO user_symptoms (user_id, phys_sym_id, severity_scale)
+      VALUES ${values};
+    `;
+
+    const insertResult = await pool.query(query, params);
+    console.log("Batch insert successful:", insertResult);
   } catch (error) {
-    console.error("Insert failure:", error);
+    console.error("Batch insert failure:", error);
     throw new Error("Failed to insert data");
   }
 };
 
-export { getQsAndAs, insertKidRes, insertPhysRes, insertSymptoms };
+const loginUser = async ({ userName }: LoginProps) => {
+  try {
+    const loginResult = await pool.query(
+      `SELECT user_id FROM user_account WHERE user_name = $1`,
+      [userName]
+    );
+
+    if (loginResult.rows.length === 0) {
+      throw new Error("User not found");
+    }
+    console.log("Log in successful.");
+    return loginResult.rows[0];
+  } catch (error) {
+    console.error("Login failure:", error);
+    throw new Error("Failed to login at API");
+  }
+};
+
+export { getQsAndAs, insertKidRes, insertPhysRes, insertSymptoms, loginUser };

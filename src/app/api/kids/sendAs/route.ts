@@ -3,9 +3,9 @@ import { insertKidRes } from "../../controllers/db-controllers";
 
 export async function POST(req: NextRequest) {
   try {
-    const inData = await req.json();
+    const body = await req.json();
 
-    const { userId, questionId, answerId } = inData;
+    const { userId, questionId, answerId } = body.formData;
     if (!userId || !questionId || !answerId) {
       return NextResponse.json(
         { error: "Invalid data provided" },

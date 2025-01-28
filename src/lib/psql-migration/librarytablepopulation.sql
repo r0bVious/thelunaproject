@@ -1,4 +1,4 @@
-INSERT INTO question (question_text) VALUES ('What color looks good today?'), ('How are you feeling today?'), ('What''s the weather like?');
+INSERT INTO question (question_text, container_type) VALUES ('What color looks good today?'), ('How are you feeling today?'), ('What''s the weather like?');
 
 INSERT INTO answer (question_id, answer_text) values (1, 'red'), (1, 'orange'), (1, 'yellow'), (1, 'green'), (1, 'sky blue'), (1, 'blue'), (1, 'purple'), (1, 'pink'), (1, 'cyan'), (1, 'brown'), (1, 'black'), (1, 'white'),  (1, 'gray');
 
@@ -9,14 +9,15 @@ INSERT INTO answer (question_id, answer_text) values (3, 'sunny'), (3, 'cloudy')
 INSERT INTO phys_sym (symptom_name) VALUES 
 ('Fever'),
 ('Coughing'),
-('Runny nose'),
-('Stuffy nose'),
+('Runny Nose'),
+('Stuffy Nose'),
 ('Vomiting'),
 ('Diarrhea'),
 ('Rash'),
-('Sore throat'),
+('Sore Throat'),
 ('Headache'),
 ('Stomachache'),
 ('Constipation'),
-('Dry skin'),
-('Sneezing');
+('Dry Skin'),
+('Sneezing'),
+('Lack of Appetite');
