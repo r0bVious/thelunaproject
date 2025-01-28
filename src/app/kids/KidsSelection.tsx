@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Answer, Question } from "@/types";
 import KidAnswerButton from "@/components/ui/KidAnswerButton";
 import { useUserContext } from "@/contexts/UserContext";
+import { kidsQuesConfig } from "@/data/kidsConfig";
 
 interface KidsSelectionProps {
   questions: Question[];
@@ -13,6 +14,7 @@ const KidsSelection = ({ questions, answers }: KidsSelectionProps) => {
   const { userId } = useUserContext();
   const [currentQuestionId, setCurrentQuestionId] = useState(1);
   const currentQuestion = questions[currentQuestionId - 1];
+  const [bgColor, setBgColor] = useState<string>("");
 
   const handleNext = () => {
     if (currentQuestionId < questions.length) {
@@ -20,12 +22,18 @@ const KidsSelection = ({ questions, answers }: KidsSelectionProps) => {
     }
   };
 
+  const kidsQuesStyles =
+    kidsQuesConfig[currentQuestion.container_type].containerStyles;
+  console.log("cont type:", currentQuestion.container_type);
+  console.log("styles found:", kidsQuesStyles);
   return (
-    <div className="p-5 flex flex-col h-full w-full">
+    <div
+      className={`flex flex-col justify-evenly h-full items-center ${bgColor}`}
+    >
       <h1>
         {currentQuestion.question_text} - question {currentQuestionId}
       </h1>
-      <section className={``}>
+      <section className={kidsQuesStyles}>
         {answers.map((answer) =>
           answer.question_id === currentQuestionId ? (
             <KidAnswerButton
@@ -34,7 +42,8 @@ const KidsSelection = ({ questions, answers }: KidsSelectionProps) => {
               questionId={answer.question_id}
               answerId={answer.answer_id}
               answerText={answer.answer_text}
-              buttonStyles={`w-full py-5`}
+              buttonType={answer.button_type}
+              buttonStyle={answer.button_style}
             />
           ) : null
         )}

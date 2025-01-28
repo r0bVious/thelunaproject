@@ -1,12 +1,15 @@
 interface Question {
   question_id: number;
   question_text: string;
+  container_type: string;
 }
 
 interface Answer {
   answer_id: number;
   question_id: number;
   answer_text: string;
+  button_type: string;
+  button_style: string;
 }
 
 interface KidResProps {
