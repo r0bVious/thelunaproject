@@ -1,4 +1,4 @@
-import { kidsAnsConfig } from "@/data/kidsConfig";
+import { ButtonStyleKey, kidsAnsConfig } from "@/data/kidsConfig";
 
 interface AnswerButtonProps {
   userId: number | null;
@@ -7,6 +7,8 @@ interface AnswerButtonProps {
   answerText: string;
   buttonType: string;
   buttonStyle: string;
+  containerType: string;
+  setQuestionStates: React.Dispatch<React.SetStateAction<Record<string, any>>>;
 }
 
 const KidAnswerButton = ({
@@ -16,11 +18,18 @@ const KidAnswerButton = ({
   answerText,
   buttonType,
   buttonStyle,
+  containerType,
+  setQuestionStates,
 }: AnswerButtonProps) => {
-  const buttonClasses = kidsAnsConfig[buttonType].buttonStyles(buttonStyle);
-  const successClick = kidsAnsConfig[buttonType].buttonOnClick;
+  const key = buttonType as ButtonStyleKey;
+  const buttonClasses = kidsAnsConfig[key].buttonStyles(buttonStyle);
 
   const handleClick = async () => {
+    setQuestionStates((prevStates) => ({
+      ...prevStates,
+      [containerType]: buttonStyle,
+    }));
+
     try {
       const response = await fetch("/api/kids/sendAs", {
         method: "POST",
@@ -40,7 +49,6 @@ const KidAnswerButton = ({
 
       const data = await response.json();
       console.log("Post successful:", data);
-      await successClick();
     } catch (error) {
       console.log("Failed to POST data:", error);
     }
