@@ -1,12 +1,12 @@
 "use client";
 import { useState } from "react";
 import { Answer, Question } from "@/types";
-import KidAnswerButton from "@/components/ui/KidAnswerButton";
+import KidAnswer from "@/components/KidAnswer";
 import { useUserContext } from "@/contexts/UserContext";
 import {
-  kidsAnsConfig,
   kidsQuesConfig,
   QuestionStyleKey,
+  stateEffectConfig,
 } from "@/data/kidsConfig";
 import "./KidsSelectionStyles.css";
 
@@ -39,12 +39,11 @@ const KidsSelection = ({ questions, answers }: KidsSelectionProps) => {
   const kidsQuesStyles = kidsQuesConfig[key].containerStyles;
 
   //specific variable for color effect
-  const colorStateStyles = kidsAnsConfig["color-swatch"].stateEffect(
+  const colorStateStyles = stateEffectConfig["color-swatch"].stateEffect(
     questionStates["colors"]
   );
 
   //maybe have a kidsAnsConfig["weather"].stateEffect(questionStates["weather"]); that returns whatever necessary for whatever effect desired - this brings all necessary data for effects to happen HERE as well as within buttons if necessary
-
   return (
     <div
       className={`flex flex-col justify-evenly h-full items-center ${colorStateStyles}`}
@@ -55,16 +54,16 @@ const KidsSelection = ({ questions, answers }: KidsSelectionProps) => {
       <section className={kidsQuesStyles}>
         {answers.map((answer) =>
           answer.question_id === currentQuestionId ? (
-            <KidAnswerButton
+            <KidAnswer
               userId={userId}
               key={answer.answer_id}
               questionId={answer.question_id}
               answerId={answer.answer_id}
-              answerText={answer.answer_text}
               containerType={currentQuestion.container_type}
               buttonType={answer.button_type}
               buttonStyle={answer.button_style}
               setQuestionStates={setQuestionStates}
+              setCurrentQuestionId={setCurrentQuestionId}
             />
           ) : null
         )}

@@ -7,7 +7,6 @@ interface Question {
 interface Answer {
   answer_id: number;
   question_id: number;
-  answer_text: string;
   button_type: string;
   button_style: string;
 }

@@ -1,9 +1,11 @@
 "use client";
 import { useState } from "react";
-import ConditionSelector from "@/components/ui/ConditionSelector";
+import ConditionSelector from "@/components/ConditionSelector";
 import { PhysResProps, Symptom } from "@/types";
 import { SymptomSelector } from "./SymptomSelector";
 import { useUserContext } from "@/contexts/UserContext";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 const DailyPhysSelection = ({ symptoms }: { symptoms: Symptom[] }) => {
   const { userId } = useUserContext();
@@ -76,34 +78,35 @@ const DailyPhysSelection = ({ symptoms }: { symptoms: Symptom[] }) => {
   };
 
   return (
-    <div className="h-full w-full p-5">
+    <div className="h-full w-full">
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col gap-5 bg-slate-500 p-5 rounded-xl"
+        className="flex flex-col bg-slate-500 p-2 rounded-xl items-center justify-evenly h-full"
       >
-        <input
-          name="height"
-          placeholder="Height"
-          type="number"
-          value={formData.height ?? ""}
-          onChange={handleInputChange}
-        />
-        <input
-          name="weight"
-          placeholder="Weight"
-          type="number"
-          step="0.1"
-          value={formData.weight ?? ""}
-          onChange={handleInputChange}
-        />
-        <input
-          name="hoursSlept"
-          placeholder="Hours Slept"
-          type="number"
-          step="0.5"
-          value={formData.hoursSlept ?? ""}
-          onChange={handleInputChange}
-        />
+        <div className="w-full flex flex-col gap-2 items-center">
+          <p className="m-0 p-0">Daily Measurements:</p>
+          <Input
+            name="height"
+            placeholder="Height in cm"
+            type="text"
+            value={formData.height ?? ""}
+            onChange={handleInputChange}
+          />
+          <Input
+            name="weight"
+            placeholder="Weight in kg"
+            type="text"
+            value={formData.weight ?? ""}
+            onChange={handleInputChange}
+          />
+          <Input
+            name="hoursSlept"
+            placeholder="Hours Slept"
+            type="text"
+            value={formData.hoursSlept ?? ""}
+            onChange={handleInputChange}
+          />
+        </div>
         <ConditionSelector
           name="condition"
           value={formData.condition ?? null}
@@ -115,9 +118,9 @@ const DailyPhysSelection = ({ symptoms }: { symptoms: Symptom[] }) => {
           onChange={handleSymptomChange}
         />
         {error && <p className="text-red-500">{error}</p>}
-        <button type="submit" className="bg-blue-600 p-2 text-white rounded">
+        <Button type="submit" className="mt-2 w-full">
           Submit
-        </button>
+        </Button>
       </form>
     </div>
   );

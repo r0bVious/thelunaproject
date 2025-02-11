@@ -1,29 +1,26 @@
-import { ButtonStyleKey, kidsAnsConfig } from "@/data/kidsConfig";
+import { AnswerButton } from "./KidAnswerButtons";
 
 interface AnswerButtonProps {
   userId: number | null;
   questionId: number;
   answerId: number;
-  answerText: string;
   buttonType: string;
   buttonStyle: string;
   containerType: string;
   setQuestionStates: React.Dispatch<React.SetStateAction<Record<string, any>>>;
+  setCurrentQuestionId: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const KidAnswerButton = ({
+const KidAnswer = ({
   userId,
   questionId,
   answerId,
-  answerText,
   buttonType,
   buttonStyle,
   containerType,
   setQuestionStates,
+  setCurrentQuestionId,
 }: AnswerButtonProps) => {
-  const key = buttonType as ButtonStyleKey;
-  const buttonClasses = kidsAnsConfig[key].buttonStyles(buttonStyle);
-
   const handleClick = async () => {
     setQuestionStates((prevStates) => ({
       ...prevStates,
@@ -52,13 +49,12 @@ const KidAnswerButton = ({
     } catch (error) {
       console.log("Failed to POST data:", error);
     }
+    setCurrentQuestionId(questionId + 1);
   };
 
   return (
-    <button onClick={handleClick} className={`${buttonClasses}`}>
-      {answerText}
-    </button>
+    <AnswerButton onClick={handleClick} type={buttonType} style={buttonStyle} />
   );
 };
 
-export default KidAnswerButton;
+export default KidAnswer;

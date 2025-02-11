@@ -16,7 +16,7 @@ INSERT INTO answer (question_id, answer_text, button_type, button_style) values
 (1, 'gray', 'color-swatch', 'gray');
 
 
-INSERT INTO answer (question_id, answer_text, button_type, button_style) values (2, 'happy', 'feeling', 'happy'), (2, 'sad', 'feeling', 'sad'), (2, 'angry', 'feeling', 'angry'), (2, 'excited', 'feeling', 'excited'), (2, 'scared', 'feeling', 'scared'), (2, 'silly', 'feeling', 'scared'), (2, 'bored', 'feeling', 'bored'), (2, 'nervous', 'feeling', 'nervous'), (2, 'tired', 'feeling', 'tired');
+INSERT INTO answer (question_id, answer_text, button_type, button_style) values (2, 'happy', 'feeling', 'happy'), (2, 'sad', 'feeling', 'sad'), (2, 'angry', 'feeling', 'angry'), (2, 'excited', 'feeling', 'excited'), (2, 'scared', 'feeling', 'scared'), (2, 'silly', 'feeling', 'silly'), (2, 'bored', 'feeling', 'bored'), (2, 'nervous', 'feeling', 'nervous'), (2, 'tired', 'feeling', 'tired');
 
 INSERT INTO answer (question_id, answer_text, button_type, button_style) values (3, 'sunny', 'weather', 'sunny'), (3, 'cloudy', 'weather', 'cloudy'), (3, 'rainy', 'weather', 'rainy'), (3, 'snowy', 'weather', 'snowy'), (3, 'foggy', 'weather', 'foggy'), (3, 'windy', 'weather', 'windy'), (3, 'hot', 'weather', 'hot'), (3, 'cold', 'weather', 'cold');
 
