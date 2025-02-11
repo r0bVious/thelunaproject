@@ -40,7 +40,7 @@ const ColorButton: React.FC<ButtonProps> = ({ style, onClick }) => {
 
 const FeelingButton: React.FC<ButtonProps> = ({ style, onClick }) => {
   const buttonStyles =
-    "animate-tada text-white text-2xl font-bold w-36 h-36 rounded-full mb-4 border-2 border-black flex flex-col justify-evenly bg-gradient-to-b from-gray-100 to-gray-500 text-black";
+    "animate-tada text-white text-2xl font-bold w-36 h-36 rounded-full mb-4 border-2 border-black flex flex-col justify-evenly bg-linear-to-b from-gray-100 to-gray-500 text-black";
   const emoji = (style: string) => {
     return (
       {
@@ -66,7 +66,7 @@ const FeelingButton: React.FC<ButtonProps> = ({ style, onClick }) => {
 
 const WeatherButton: React.FC<ButtonProps> = ({ style, onClick }) => {
   const buttonStyles =
-    "animate-tada text-white text-2xl font-bold w-36 h-36 mb-4 border-2 border-black flex flex-col justify-evenly bg-gray-500 from-gray-100 to-gray-500 text-black";
+    "animate-tada text-2xl font-bold w-36 h-36 mb-4 border-2 border-black flex flex-col justify-evenly bg-gray-500 from-gray-100 to-gray-500 text-black";
   const emoji = (style: string) => {
     return (
       {

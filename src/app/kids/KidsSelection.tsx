@@ -42,7 +42,7 @@ const KidsSelection = ({ questions, answers }: KidsSelectionProps) => {
   const colorStateStyles = stateEffectConfig["color-swatch"].stateEffect(
     questionStates["colors"]
   );
-
+  console.log(questionStates);
   //maybe have a kidsAnsConfig["weather"].stateEffect(questionStates["weather"]); that returns whatever necessary for whatever effect desired - this brings all necessary data for effects to happen HERE as well as within buttons if necessary
   return (
     <div

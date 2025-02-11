@@ -12,7 +12,8 @@ interface QuestionContainerProps {
 export const kidsQuesConfig: Record<QuestionStyleKey, QuestionContainerProps> =
   {
     colors: {
-      containerStyles: "flex flex-wrap w-full justify-evenly",
+      containerStyles:
+        "flex flex-wrap w-full justify-evenly perspective-distant",
       effectConfig: {
         stateType: "string",
         initialValue: null,
@@ -41,21 +42,20 @@ export const stateEffectConfig: Record<
   "color-swatch": {
     stateEffect: (state) =>
       ({
-        red: `bg-gradient-to-r from-red-500 to-red-700 animate-gradient`,
-        orange: `bg-gradient-to-r from-orange-400 to-orange-600 animate-gradient`,
-        yellow: `bg-gradient-to-r from-yellow-300 to-yellow-500 animate-gradient`,
-        green: `bg-gradient-to-r from-green-500 to-green-700 animate-gradient`,
-        sky: `bg-gradient-to-r from-sky-300 to-sky-500 animate-gradient`,
-        blue: `bg-gradient-to-r from-blue-500 to-blue-700 animate-gradient`,
-        purple: `bg-gradient-to-r from-purple-500 to-purple-700 animate-gradient`,
-        pink: `bg-gradient-to-r from-pink-300 to-pink-500 animate-gradient`,
-        cyan: `bg-gradient-to-r from-cyan-300 to-cyan-500 animate-gradient`,
-        brown: `bg-gradient-to-r from-yellow-700 to-yellow-900 animate-gradient`,
-        black: `bg-gradient-to-r from-gray-900 to-gray-700 animate-gradient`,
-        white: `text-black bg-gradient-to-r from-gray-100 to-white animate-gradient`,
-        gray: `bg-gradient-to-r from-gray-300 to-gray-500 animate-gradient`,
-      }[state] ||
-      `bg-gradient-to-r from-gray-300 to-gray-500 animate-gradient`),
+        red: `bg-linear-to-r from-red-500 to-red-700 animate-gradient`,
+        orange: `bg-linear-to-r from-orange-400 to-orange-600 animate-gradient`,
+        yellow: `bg-linear-to-r from-yellow-300 to-yellow-500 animate-gradient`,
+        green: `bg-linear-to-r from-green-500 to-green-700 animate-gradient`,
+        sky: `bg-linear-to-r from-sky-300 to-sky-500 animate-gradient`,
+        blue: `bg-linear-to-r from-blue-500 to-blue-700 animate-gradient`,
+        purple: `bg-linear-to-r from-purple-500 to-purple-700 animate-gradient`,
+        pink: `bg-linear-to-r from-pink-300 to-pink-500 animate-gradient`,
+        cyan: `bg-linear-to-r from-cyan-300 to-cyan-500 animate-gradient`,
+        brown: `bg-linear-to-r from-yellow-700 to-yellow-900 animate-gradient`,
+        black: `bg-linear-to-r from-gray-900 to-gray-700 animate-gradient`,
+        white: `text-black bg-linear-to-r from-gray-100 to-white animate-gradient`,
+        gray: `bg-linear-to-r from-gray-300 to-gray-500 animate-gradient`,
+      }[state] || `bg-linear-to-r from-gray-300 to-gray-500 animate-gradient`),
   },
   weather: {
     stateEffect: (state) =>

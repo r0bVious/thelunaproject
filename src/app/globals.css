@@ -1,11 +1,101 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
 
-body {
-  font-family: Arial, Helvetica, sans-serif;
-  height: 100vh;
-  width: 100vw;
+@plugin 'tailwindcss-animate';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --animate-tada: tada 1s ease-in-out;
+
+  --color-background: var(--background);
+  --color-foreground: #000;
+  --color-main: #88aaee;
+  --color-overlay: rgba(0, 0, 0, 0.8);
+  --color-bg: #dfe5f2;
+  --color-text: #000;
+  --color-border: #000;
+  --color-dark-bg: #272933;
+  --color-dark-text: #eeefe9;
+  --color-dark-border: #000;
+  --color-secondary-black: #212121;
+
+  --radius-base: 10px;
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  --shadow-light: 4px 4px 0px 0px #000;
+  --shadow-dark: 4px 4px 0px 0px #000;
+
+  --translate-box-shadow-x: 4px;
+  --translate-box-shadow-y: 4px;
+  --translate-reverse-box-shadow-x: -4px;
+  --translate-reverse-box-shadow-y: -4px;
+
+  --font-weight-base: 500;
+  --font-weight-heading: 700;
+
+  @keyframes tada {
+    0% {
+      transform: scale(1);
+    }
+    10% {
+      transform: scale(0.9) rotate(-3deg);
+    }
+    20% {
+      transform: scale(0.9) rotate(-3deg);
+    }
+    30% {
+      transform: scale(1.1) rotate(3deg);
+    }
+    40% {
+      transform: scale(1.1) rotate(-3deg);
+    }
+    50% {
+      transform: scale(1.1) rotate(3deg);
+    }
+    60% {
+      transform: scale(1.1) rotate(-3deg);
+    }
+    70% {
+      transform: scale(1.1) rotate(3deg);
+    }
+    80% {
+      transform: scale(1.1) rotate(-3deg);
+    }
+    90% {
+      transform: scale(1.1) rotate(3deg);
+    }
+    100% {
+      transform: scale(1) rotate(0);
+    }
+  }
+}
+
+/*
+  The default border color has changed to `currentColor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+}
+
+@layer utilities {
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+    height: 100vh;
+    width: 100vw;
+  }
 }
 
 @layer base {
