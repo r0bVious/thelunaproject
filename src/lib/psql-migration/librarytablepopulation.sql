@@ -10,10 +10,9 @@ INSERT INTO answer (question_id, answer_text, button_type, button_style) values
 (1, 'purple', 'color-swatch', 'purple'), 
 (1, 'pink', 'color-swatch', 'pink'), 
 (1, 'cyan', 'color-swatch', 'cyan'), 
-(1, 'brown', 'color-swatch', 'brown'), 
-(1, 'black', 'color-swatch', 'black'), 
 (1, 'white', 'color-swatch', 'white'), 
 (1, 'gray', 'color-swatch', 'gray');
+(1, 'black', 'color-swatch', 'black'), 
 
 
 INSERT INTO answer (question_id, answer_text, button_type, button_style) values (2, 'happy', 'feeling', 'happy'), (2, 'sad', 'feeling', 'sad'), (2, 'angry', 'feeling', 'angry'), (2, 'excited', 'feeling', 'excited'), (2, 'scared', 'feeling', 'scared'), (2, 'silly', 'feeling', 'silly'), (2, 'bored', 'feeling', 'bored'), (2, 'nervous', 'feeling', 'nervous'), (2, 'tired', 'feeling', 'tired');

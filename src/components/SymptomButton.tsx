@@ -1,7 +1,5 @@
 "use client";
 
-import { Button } from "./ui/button";
-
 interface SymptomButtonProps {
   sympName: string;
   severity: number;
@@ -23,7 +21,7 @@ const SymptomButton = ({
   return (
     <div className="w-full min-h-24 flex flex-col items-center">
       <input type="hidden" name={sympName} value={severity} />
-      <Button
+      <button
         type="button"
         className="h-full w-full flex flex-col justify-evenly items-center"
         onClick={handleSympClick}
@@ -41,7 +39,7 @@ const SymptomButton = ({
             />
           ))}
         </div>
-      </Button>
+      </button>
     </div>
   );
 };

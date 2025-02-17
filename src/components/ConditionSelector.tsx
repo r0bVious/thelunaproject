@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-import { Button } from "./ui/button";
 
 interface ConditionSelectorProps {
   name: string;
@@ -27,7 +26,7 @@ export default function ConditionSelector({
       <div className="flex w-full justify-evenly gap-2">
         <input type="hidden" name={name} value={value?.toString() ?? ""} />
         {conditions.map(({ id, label }) => (
-          <Button
+          <button
             key={id}
             type="button"
             className={`rounded h-20 w-1/5 ${
@@ -36,7 +35,7 @@ export default function ConditionSelector({
             onClick={() => onChange(id)}
           >
             {label}
-          </Button>
+          </button>
         ))}
       </div>
     </div>

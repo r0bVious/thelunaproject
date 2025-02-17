@@ -4,8 +4,6 @@ import ConditionSelector from "@/components/ConditionSelector";
 import { PhysResProps, Symptom } from "@/types";
 import { SymptomSelector } from "./SymptomSelector";
 import { useUserContext } from "@/contexts/UserContext";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 
 const DailyPhysSelection = ({ symptoms }: { symptoms: Symptom[] }) => {
   const { userId } = useUserContext();
@@ -85,21 +83,21 @@ const DailyPhysSelection = ({ symptoms }: { symptoms: Symptom[] }) => {
       >
         <div className="w-full flex flex-col gap-2 items-center">
           <p className="m-0 p-0">Daily Measurements:</p>
-          <Input
+          <input
             name="height"
             placeholder="Height in cm"
             type="text"
             value={formData.height ?? ""}
             onChange={handleInputChange}
           />
-          <Input
+          <input
             name="weight"
             placeholder="Weight in kg"
             type="text"
             value={formData.weight ?? ""}
             onChange={handleInputChange}
           />
-          <Input
+          <input
             name="hoursSlept"
             placeholder="Hours Slept"
             type="text"
@@ -118,9 +116,9 @@ const DailyPhysSelection = ({ symptoms }: { symptoms: Symptom[] }) => {
           onChange={handleSymptomChange}
         />
         {error && <p className="text-red-500">{error}</p>}
-        <Button type="submit" className="mt-2 w-full">
+        <button type="submit" className="mt-2 w-full">
           Submit
-        </Button>
+        </button>
       </form>
     </div>
   );

@@ -1,12 +1,10 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @plugin 'tailwindcss-animate';
 
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --animate-tada: tada 1s ease-in-out;
-
   --color-background: var(--background);
   --color-foreground: #000;
   --color-main: #88aaee;

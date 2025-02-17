@@ -38,22 +38,22 @@ export const parsePhysRes = (formData: FormData) => {
   };
 };
 
-export const parseSymptomRes = (symptoms) => {
-  console.log(rawSymptoms);
-  // if (!userId || !rawSymptoms) {
-  //   throw new Error("Missing userId or symptoms data");
-  // }
+// export const parseSymptomRes = (symptoms) => {
+//   console.log(rawSymptoms);
+//   if (!userId || !rawSymptoms) {
+//     throw new Error("Missing userId or symptoms data");
+//   }
 
-  // const symptoms = rawSymptoms
-  //   .map((severityScale: number, index: number) => {
-  //     if (severityScale === 0) return null;
-  //     return {
-  //       userId: Number(userId),
-  //       symId: index + 1,
-  //       severityScale,
-  //     };
-  //   })
-  //   .filter((symptom) => symptom !== null);
+//   const symptoms = rawSymptoms
+//     .map((severityScale: number, index: number) => {
+//       if (severityScale === 0) return null;
+//       return {
+//         userId: Number(userId),
+//         symId: index + 1,
+//         severityScale,
+//       };
+//     })
+//     .filter((symptom) => symptom !== null);
 
-  // return { symptoms };
-};
+//   return { symptoms };
+// };

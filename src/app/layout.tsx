@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { UserProvider } from "@/contexts/UserContext";
-import { ActionProvider } from "@/contexts/EffectContext";
 
 export const metadata: Metadata = {
   title: "Luna Data Time",

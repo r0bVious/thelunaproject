@@ -1,23 +1,29 @@
 import { AnswerButton } from "./KidAnswerButtons";
 
 interface AnswerButtonProps {
+  index: number;
   userId: number | null;
   questionId: number;
   answerId: number;
   buttonType: string;
   buttonStyle: string;
   containerType: string;
-  setQuestionStates: React.Dispatch<React.SetStateAction<Record<string, any>>>;
+  questionStates: Record<string, string | null>;
+  setQuestionStates: React.Dispatch<
+    React.SetStateAction<Record<string, string | null>>
+  >;
   setCurrentQuestionId: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const KidAnswer = ({
+  index,
   userId,
   questionId,
   answerId,
+  containerType,
   buttonType,
   buttonStyle,
-  containerType,
+  questionStates,
   setQuestionStates,
   setCurrentQuestionId,
 }: AnswerButtonProps) => {
@@ -49,11 +55,21 @@ const KidAnswer = ({
     } catch (error) {
       console.log("Failed to POST data:", error);
     }
-    setCurrentQuestionId(questionId + 1);
+
+    //LOOP FOR TESTING - FIX IN PROD
+    if (questionId > 2) {
+      setCurrentQuestionId(1);
+    } else setCurrentQuestionId(questionId + 1);
   };
 
   return (
-    <AnswerButton onClick={handleClick} type={buttonType} style={buttonStyle} />
+    <AnswerButton
+      index={index}
+      type={buttonType}
+      style={buttonStyle}
+      questionStates={questionStates}
+      onClick={handleClick}
+    />
   );
 };
 

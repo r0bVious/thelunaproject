@@ -54,6 +54,7 @@ const insertPhysRes = async ({
 
       const dailyPhysQuery = `INSERT INTO daily_phys (${dailyPhysColumns}) VALUES (${dailyPhysPlaceholders})`;
       const dailyPhysResult = await pool.query(dailyPhysQuery, dailyPhysValues);
+      console.log(dailyPhysResult);
     }
 
     if (symptoms && Object.keys(symptoms).length > 0) {
