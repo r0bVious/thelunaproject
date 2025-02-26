@@ -1,12 +1,25 @@
 import { motion } from "motion/react";
 import Image from "next/image";
+import { emojiBlast } from "emoji-blast";
+import {
+  angryBlast,
+  boredBlast,
+  excitedBlast,
+  happyBlast,
+  nervousBlast,
+  sadBlast,
+  scaredBlast,
+  sillyBlast,
+  tiredBlast,
+} from "@/data/emojiBlastConfig";
+import { useRef } from "react";
 
 interface ButtonProps {
   index: number;
   type: string;
   style: string;
   questionStates: Record<string, string | null>;
-  onClick?: () => void;
+  onClick: () => void;
 }
 //I think we can use the current state here to dynamically style through the state object?
 
@@ -65,13 +78,36 @@ const FeelingButton: React.FC<ButtonProps> = ({
   questionStates,
   index,
 }) => {
+  const feelingRef = useRef<HTMLButtonElement>(null);
   const buttonStyles =
     "font-bold md:h-48 md:w-48 flex flex-col justify-evenly items-center text-3xl border-4 rounded-2xl";
 
+  const feelingEmoji = (feeling: string, event: React.MouseEvent) => {
+    if (!feelingRef.current) return;
+
+    const emojiEffects: Record<string, (ref: HTMLButtonElement) => void> = {
+      happy: (ref) => happyBlast(ref),
+      sad: (ref) => sadBlast(ref),
+      angry: (ref) => angryBlast(ref),
+      excited: (ref) => excitedBlast(ref),
+      scared: (ref) => scaredBlast(ref),
+      silly: (ref) => sillyBlast(ref),
+      bored: (ref) => boredBlast(ref),
+      nervous: (ref) => nervousBlast(ref),
+      tired: (ref) => tiredBlast(ref),
+    };
+
+    emojiEffects[feeling]?.(feelingRef.current);
+  };
+
   return (
     <motion.button
+      ref={feelingRef}
       className={buttonStyles}
-      onClick={onClick}
+      onClick={(event) => {
+        feelingEmoji(style, event);
+        onClick();
+      }}
       initial={{ opacity: 0, scale: 0 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{

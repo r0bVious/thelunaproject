@@ -101,3 +101,16 @@
     --radius: 0.5rem;
   }
 }
+
+.fader {
+  animation: fader 2s ease-in-out forwards;
+}
+
+@keyframes fader {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}

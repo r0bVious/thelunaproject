@@ -57,9 +57,10 @@ const KidAnswer = ({
     }
 
     //LOOP FOR TESTING - FIX IN PROD
-    if (questionId > 2) {
-      setCurrentQuestionId(1);
-    } else setCurrentQuestionId(questionId + 1);
+    setCurrentQuestionId(2);
+    // if (questionId > 2) {
+    //   setCurrentQuestionId(1);
+    // } else setCurrentQuestionId(questionId + 1);
   };
 
   return (
