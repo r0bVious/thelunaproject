@@ -10,13 +10,15 @@ interface QuestionContainerProps {
   };
 }
 
+//baseWrapper is just the app centering within AnimatePresence
 const baseWrapper = "w-full h-full flex flex-col justify-center";
-const baseCont = "flex flex-wrap rounded-2xl h-full m-5";
+//baseCont is the actual question container
+const baseCont = "flex rounded-2xl h-full m-5 overflow-hidden";
 export const kidsQuesConfig: Record<QuestionStyleKey, QuestionContainerProps> =
   {
     colors: {
       wrapperStyles: `${baseWrapper}`,
-      containerStyles: `${baseCont} rounded-2xl overflow-hidden`,
+      containerStyles: `${baseCont} flex-col`,
       effectConfig: {
         stateType: "string",
         initialValue: null,
@@ -24,7 +26,7 @@ export const kidsQuesConfig: Record<QuestionStyleKey, QuestionContainerProps> =
     },
     feelings: {
       wrapperStyles: `${baseWrapper}`,
-      containerStyles: `${baseCont} justify-evenly items-center bg-[rgba(255,255,255,0.5)]`,
+      containerStyles: `${baseCont} flex-wrap justify-evenly items-center bg-[rgba(255,255,255,0.5)]`,
       effectConfig: {
         stateType: "string",
         initialValue: null,
@@ -32,7 +34,7 @@ export const kidsQuesConfig: Record<QuestionStyleKey, QuestionContainerProps> =
     },
     weather: {
       wrapperStyles: `${baseWrapper}`,
-      containerStyles: `${baseCont} justify-evenly items-center bg-[rgba(255,255,255,0.75)]`,
+      containerStyles: `${baseCont} flex-col justify-between gap-2`,
       effectConfig: {
         stateType: "string",
         initialValue: null,
@@ -64,15 +66,15 @@ export const stateEffectConfig: Record<
   weather: {
     stateEffect: (state) =>
       ({
-        sunny: "bg-yellow-500",
-        cloudy: "bg-gray-400",
-        rainy: "bg-blue-500",
-        snowy: "bg-white",
-        foggy: "bg-gray-300",
-        windy: "bg-teal-500",
-        hot: "bg-red-500",
-        cold: "bg-blue-400",
-      }[state] || "bg-gray-300"),
+        sunny: "",
+        cloudy: "",
+        rainy: "",
+        snowy: "",
+        foggy: "",
+        windy: "",
+        hot: "",
+        cold: "",
+      }[state] || ""),
   },
   feeling: {
     stateEffect: (state) =>

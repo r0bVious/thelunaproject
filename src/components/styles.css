@@ -1,0 +1,139 @@
+@keyframes slowpulse {
+  from {
+    scale: 1;
+  }
+  to {
+    scale: 1.1;
+  }
+}
+
+.slowpulse {
+  animation: slowpulse 2s ease-in-out infinite alternate;
+}
+
+@keyframes slideleftfade {
+  0% {
+    transform: translateX(50%);
+    opacity: 0;
+  }
+  50% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-50%);
+    opacity: 0;
+  }
+}
+
+.slideleftfade {
+  animation: slideleftfade 5s linear infinite;
+}
+
+@keyframes fadeloop {
+  from {
+    opacity: 0.25;
+    transform: translateX(-1%);
+  }
+  to {
+    opacity: 0.6;
+    transform: translateX(1%);
+  }
+}
+
+.fadeloop {
+  animation: fadeloop 3s linear alternate infinite;
+}
+
+@keyframes windy {
+  0% {
+    transform: translateX(-50%) rotate(0);
+  }
+  50% {
+    transform: translateX(500%) rotate(540deg)
+      translateY(var(--random-val, 20%));
+  }
+  100% {
+    transform: translateX(1000%) rotate(1080deg);
+  }
+}
+
+.windy {
+  animation: windy 5s linear infinite;
+}
+
+.rainy::before,
+.rainy::after {
+  content: "💧";
+  position: absolute;
+  font-size: 1rem;
+  animation: rainy 1s linear infinite;
+  opacity: 0;
+}
+.rainy::before {
+  left: calc(50% - 30px);
+  animation-delay: 0.2s;
+}
+.rainy::after {
+  left: calc(50% + 10px);
+  animation-delay: 0.5s;
+}
+@keyframes rainy {
+  0% {
+    opacity: 1;
+    transform: translateY(-100%);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(200%);
+  }
+}
+
+@keyframes snowy {
+  0% {
+    transform: translateY(0%) translateX(0) rotate(0deg);
+  }
+  20% {
+    transform: translateY(50%) translateX(-30px) rotate(120deg);
+  }
+  40% {
+    transform: translateY(100%) translateX(30px) rotate(240deg);
+  }
+  60% {
+    transform: translateY(140%) translateX(-40px) rotate(360deg);
+  }
+  80% {
+    transform: translateY(180%) translateX(20px) rotate(480deg);
+  }
+  100% {
+    transform: translateY(240%) translateX(-20px) rotate(600deg);
+  }
+}
+
+.snowy {
+  animation: snowy 5s linear infinite;
+}
+
+@keyframes freezing {
+  0%,
+  30% {
+    transform: translateX(0);
+  }
+  40% {
+    transform: translateX(-2px);
+  }
+  50% {
+    transform: translateX(2px);
+  }
+  60% {
+    transform: translateX(-1px);
+  }
+  70%,
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.freezing {
+  animation: freezing 0.5s linear infinite;
+}

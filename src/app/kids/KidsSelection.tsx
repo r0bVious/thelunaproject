@@ -10,7 +10,6 @@ import {
 } from "@/data/kidsConfig";
 import "./KidsSelectionStyles.css";
 import { motion, AnimatePresence } from "motion/react";
-import Image from "next/image";
 
 interface KidsSelectionProps {
   questions: Question[];

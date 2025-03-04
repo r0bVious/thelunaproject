@@ -3,8 +3,8 @@ import "./globals.css";
 import { UserProvider } from "@/contexts/UserContext";
 
 export const metadata: Metadata = {
-  title: "Luna Data Time",
-  description: "Luna's First Webapp",
+  title: "The ________ Project",
+  description: "for the kids!",
 };
 
 export default function RootLayout({

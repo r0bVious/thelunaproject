@@ -1,5 +1,6 @@
 import { emojiBlast } from "emoji-blast";
 
+// ------------------- "Emotions"
 export const happyBlast = (element: HTMLButtonElement) => {
   const rect = element.getBoundingClientRect();
   const x = rect.left + rect.width / 2;
@@ -278,3 +279,8 @@ export const tiredBlast = (element: HTMLButtonElement) => {
     }, i * 250);
   }
 };
+// -------------------
+
+// ------------------- "Weather"
+
+//

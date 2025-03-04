@@ -1,6 +1,5 @@
 import { motion } from "motion/react";
 import Image from "next/image";
-import { emojiBlast } from "emoji-blast";
 import {
   angryBlast,
   boredBlast,
@@ -13,6 +12,7 @@ import {
   tiredBlast,
 } from "@/data/emojiBlastConfig";
 import { useRef } from "react";
+import "./styles.css";
 
 interface ButtonProps {
   index: number;
@@ -25,7 +25,8 @@ interface ButtonProps {
 
 const ColorButton: React.FC<ButtonProps> = ({ style, onClick, index }) => {
   const buttonStyles = (style: string) => {
-    const basicStyles = `text-3xl font-bold w-[150%]`;
+    const basicStyles =
+      "text-3xl font-bold w-[150vw] text-center flex flex-1 justify-center items-center self-center";
     return (
       {
         red: `${basicStyles} text-white bg-red-600 hover:bg-red-700`,
@@ -82,7 +83,7 @@ const FeelingButton: React.FC<ButtonProps> = ({
   const buttonStyles =
     "font-bold md:h-48 md:w-48 flex flex-col justify-evenly items-center text-3xl border-4 rounded-2xl";
 
-  const feelingEmoji = (feeling: string, event: React.MouseEvent) => {
+  const feelingEmoji = (feeling: string) => {
     if (!feelingRef.current) return;
 
     const emojiEffects: Record<string, (ref: HTMLButtonElement) => void> = {
@@ -104,8 +105,8 @@ const FeelingButton: React.FC<ButtonProps> = ({
     <motion.button
       ref={feelingRef}
       className={buttonStyles}
-      onClick={(event) => {
-        feelingEmoji(style, event);
+      onClick={() => {
+        feelingEmoji(style);
         onClick();
       }}
       initial={{ opacity: 0, scale: 0 }}
@@ -137,25 +138,56 @@ const FeelingButton: React.FC<ButtonProps> = ({
 
 const WeatherButton: React.FC<ButtonProps> = ({ style, onClick }) => {
   const buttonStyles =
-    "text-2xl font-bold w-36 h-36 mb-4 border-2 border-black flex flex-col justify-evenly bg-gray-500 from-gray-100 to-gray-500 text-black";
-  const emoji = (style: string) => {
+    "relative text-3xl font-bold w-full flex flex-1 justify-between items-center overflow-hidden bg-white rounded-2xl";
+  const buttonSetup = (style: string) => {
     return (
       {
-        sunny: `☀️`,
-        cloudy: `☁️`,
-        rainy: `☔`,
-        snowy: `🌨️`,
-        foggy: `🌫️`,
-        windy: `🍃`,
-        hot: `🥵`,
-        cold: `🥶`,
-      }[style] || ``
+        sunny: {
+          emoji: "☀️",
+          className: "absolute -right-36 -bottom-2 text-[16rem] slowpulse",
+        },
+        cloudy: {
+          emoji: "☁️",
+          className: "absolute -right-12 -top-10 text-[10rem] slideleftfade",
+        },
+        rainy: {
+          emoji: "☂️",
+          className:
+            "absolute right-6 top-4 text-[6rem] transform rotate-20 rainy",
+        },
+        snowy: {
+          emoji: "❄️",
+          className: "absolute text-[4rem] -top-12 right-12 snowy snowman",
+        },
+        foggy: {
+          emoji: "☁️",
+          className: "absolute -top-36 -right-24 text-[21rem] fadeloop",
+        },
+        windy: { emoji: "🍃", className: "absolute -left-4 text-[5rem] windy" },
+        hot: {
+          emoji: "🥵",
+          className: "absolute right-4 top-4 text-[8rem] rainy",
+        },
+        cold: {
+          emoji: "🥶",
+          className: "absolute right-4 top-4 text-[8rem] freezing",
+        },
+      }[style] || { emoji: "❓", className: "absolute text-[12rem]" }
     );
   };
+
+  const getRandom = () => (Math.random() > 0.5 ? "20%" : "-20%");
+  const { emoji, className } = buttonSetup(style);
+
   return (
     <motion.button className={buttonStyles} onClick={onClick}>
       <span>{style}</span>
-      <span className="text-5xl">{emoji(style)}</span>
+      <span
+        className={className}
+        style={{ "--random-val": getRandom() } as React.CSSProperties}
+      >
+        {emoji}
+      </span>
     </motion.button>
   );
 };
