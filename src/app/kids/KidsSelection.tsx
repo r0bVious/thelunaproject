@@ -1,15 +1,16 @@
 "use client";
 import { useState } from "react";
 import { Answer, Question } from "@/types";
-import KidAnswer from "@/components/KidAnswer";
+import KidAnswer from "@/components/KidAnswer/KidAnswer";
 import { useUserContext } from "@/contexts/UserContext";
 import {
   kidsQuesConfig,
   QuestionStyleKey,
   stateEffectConfig,
-} from "@/data/kidsConfig";
+} from "@/config/kidsConfig";
 import "./KidsSelectionStyles.css";
 import { motion, AnimatePresence } from "motion/react";
+import WeatherLayer from "@/components/WeatherLayer/WeatherLayer";
 
 interface KidsSelectionProps {
   questions: Question[];
@@ -38,8 +39,8 @@ const KidsSelection = ({ questions, answers }: KidsSelectionProps) => {
   const colorStateStyles = stateEffectConfig["color-swatch"].stateEffect(
     questionStates["colors"] || ""
   );
-  const backgroundEmotion = `/media/feelings/${questionStates["feelings"]}.png`;
-  //maybe have a kidsAnsConfig["weather"].stateEffect(questionStates["weather"]); that returns whatever necessary for whatever effect desired - this brings all necessary data for effects to happen HERE as well as within buttons if necessary
+
+  console.log(questionStates);
   return (
     <div
       className={`relative h-full transition-all duration-300 ${colorStateStyles} overflow-hidden`}
@@ -79,6 +80,7 @@ const KidsSelection = ({ questions, answers }: KidsSelectionProps) => {
             </section>
           </motion.div>
         </AnimatePresence>
+        <WeatherLayer weather={questionStates["weather"]} />
       </main>
     </div>
   );

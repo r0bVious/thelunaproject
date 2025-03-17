@@ -1,0 +1,109 @@
+hr {
+  width: 2px;
+  height: 80px;
+  border-color: transparent;
+  border-right-color: rgba(255, 255, 255, 0.3);
+  border-right-width: 5px;
+  position: absolute;
+  bottom: 100%;
+  transform-origin: 100% 50%;
+  animation-name: rain;
+  animation-duration: 5s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes rain {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(calc(100vh + 20px));
+  }
+}
+
+.cloud {
+  animation-name: cloud;
+  animation-duration: 45s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.windy {
+  animation-name: windy;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes windy {
+  from {
+    transform: translateX(0) rotate(0deg) translateY(-20%);
+  }
+  to {
+    transform: translateX(110vw) rotate(360deg) translateY(20%);
+  }
+}
+
+.fog {
+  animation-name: foggy;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  animation-duration: 5s;
+}
+
+@keyframes foggy {
+  from {
+    transform: translateX(-25%);
+  }
+  to {
+    transform: translateX(-20%);
+  }
+}
+
+@keyframes sizzle {
+  0% {
+    transform: scaleX(1) rotate(0deg);
+    opacity: 0;
+  }
+  25% {
+    transform: scaleX(-1) rotate(10deg);
+  }
+  50% {
+    transform: scaleX(1) rotate(-10deg);
+    opacity: 1;
+  }
+  75% {
+    transform: scaleX(-1) rotate(10deg);
+  }
+  100% {
+    transform: scaleX(1) rotate(-10deg);
+    opacity: 0;
+  }
+}
+
+.sizzle {
+  animation: sizzle 5s linear infinite alternate;
+}
+
+.frost {
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.4) 0%,
+    transparent 70%
+  );
+  filter: blur(3px);
+  border-radius: 50%;
+  animation: frostAppear 6s ease-in-out infinite alternate;
+}
+
+@keyframes frostAppear {
+  from {
+    transform: scale(1);
+    opacity: 0.2;
+  }
+  to {
+    transform: scale(1.8);
+    opacity: 0.9;
+  }
+}
