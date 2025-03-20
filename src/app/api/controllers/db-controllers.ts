@@ -116,7 +116,7 @@ const insertSymptoms = async (
 const loginUser = async ({ userName }: LoginProps) => {
   try {
     const loginResult = await pool.query(
-      `SELECT user_id FROM user_account WHERE user_name = $1`,
+      `SELECT user_id, child_name FROM user_account WHERE user_name = $1`,
       [userName]
     );
 
@@ -124,11 +124,34 @@ const loginUser = async ({ userName }: LoginProps) => {
       throw new Error("User not found");
     }
     console.log("Log in successful.");
-    return loginResult.rows[0];
+    return loginResult;
   } catch (error) {
     console.error("Login failure:", error);
     throw new Error("Failed to login at API");
   }
 };
 
-export { getQsAndAs, insertKidRes, insertPhysRes, insertSymptoms, loginUser };
+const createUser = async ({ email }: { email: string }) => {
+  try {
+    await pool.query(`INSERT INTO user_account (user_name) VALUES ($1)`, [
+      email,
+    ]);
+    const userId = await pool.query(
+      `SELECT user_id FROM user_account WHERE user_name = $1`,
+      [email]
+    );
+    return userId.rows[0]?.user_id || null;
+  } catch (error) {
+    console.error("User creation failure:", error);
+    throw new Error("Failed to create new user");
+  }
+};
+
+export {
+  getQsAndAs,
+  insertKidRes,
+  insertPhysRes,
+  insertSymptoms,
+  loginUser,
+  createUser,
+};

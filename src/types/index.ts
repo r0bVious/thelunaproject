@@ -1,3 +1,15 @@
+declare module "next-auth" {
+  interface User {
+    userId: number;
+    childname: string;
+  }
+
+  interface Session {
+    user: User;
+    childname: string;
+  }
+}
+
 interface Question {
   question_id: number;
   question_text: string;

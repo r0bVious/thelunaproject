@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { UserProvider } from "@/contexts/UserContext";
+import { AuthProvider } from "@/contexts/AuthProvider";
+import NavBar from "@/components/NavBar";
 
 export const metadata: Metadata = {
   title: "The ________ Project",
@@ -15,7 +17,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <UserProvider>{children}</UserProvider>
+        <AuthProvider>
+          <UserProvider>
+            <NavBar />
+            {children}
+          </UserProvider>
+        </AuthProvider>
       </body>
     </html>
   );
