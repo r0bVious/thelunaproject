@@ -1,17 +1,5 @@
 import { motion } from "motion/react";
 import Image from "next/image";
-import {
-  angryBlast,
-  boredBlast,
-  excitedBlast,
-  happyBlast,
-  nervousBlast,
-  sadBlast,
-  scaredBlast,
-  sillyBlast,
-  tiredBlast,
-} from "@/config/emojiBlastConfig";
-import { useRef } from "react";
 import "./KidAnswerStyles.css";
 
 interface ButtonProps {
@@ -21,7 +9,6 @@ interface ButtonProps {
   questionStates: Record<string, string | null>;
   onClick: () => void;
 }
-//I think we can use the current state here to dynamically style through the state object?
 
 const ColorButton: React.FC<ButtonProps> = ({ style, onClick, index }) => {
   const buttonStyles = (style: string) => {
@@ -79,34 +66,13 @@ const FeelingButton: React.FC<ButtonProps> = ({
   questionStates,
   index,
 }) => {
-  const feelingRef = useRef<HTMLButtonElement>(null);
   const buttonStyles =
     "font-bold md:h-48 md:w-48 flex flex-col justify-evenly items-center text-3xl border-4 rounded-2xl";
 
-  const feelingEmoji = (feeling: string) => {
-    if (!feelingRef.current) return;
-
-    const emojiEffects: Record<string, (ref: HTMLButtonElement) => void> = {
-      happy: (ref) => happyBlast(ref),
-      sad: (ref) => sadBlast(ref),
-      angry: (ref) => angryBlast(ref),
-      excited: (ref) => excitedBlast(ref),
-      scared: (ref) => scaredBlast(ref),
-      silly: (ref) => sillyBlast(ref),
-      bored: (ref) => boredBlast(ref),
-      nervous: (ref) => nervousBlast(ref),
-      tired: (ref) => tiredBlast(ref),
-    };
-
-    emojiEffects[feeling]?.(feelingRef.current);
-  };
-
   return (
     <motion.button
-      ref={feelingRef}
       className={buttonStyles}
       onClick={() => {
-        feelingEmoji(style);
         onClick();
       }}
       initial={{ opacity: 0, scale: 0 }}
@@ -219,6 +185,7 @@ interface AnswerButtonProps {
   setQuestionStates: React.Dispatch<
     React.SetStateAction<Record<string, string | null>>
   >;
+  setTransition: React.Dispatch<React.SetStateAction<boolean>>;
   setCurrentQuestionId: React.Dispatch<React.SetStateAction<number>>;
 }
 
@@ -232,6 +199,7 @@ const KidAnswer = ({
   buttonStyle,
   questionStates,
   setQuestionStates,
+  setTransition,
   setCurrentQuestionId,
 }: AnswerButtonProps) => {
   const handleClick = async () => {
@@ -263,11 +231,8 @@ const KidAnswer = ({
       console.log("Failed to POST data:", error);
     }
 
-    //LOOP FOR TESTING - FIX IN PROD
-    setCurrentQuestionId(3);
-    // if (questionId > 2) {
-    //   setCurrentQuestionId(1);
-    // } else setCurrentQuestionId(questionId + 1);
+    setTransition(true);
+    setCurrentQuestionId((prev) => prev + 1);
   };
 
   return (

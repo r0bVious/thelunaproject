@@ -11,6 +11,7 @@ import {
 import "./KidsSelectionStyles.css";
 import { motion, AnimatePresence } from "motion/react";
 import WeatherLayer from "@/components/WeatherLayer/WeatherLayer";
+import Transition from "@/components/Transition";
 
 interface KidsSelectionProps {
   questions: Question[];
@@ -19,7 +20,8 @@ interface KidsSelectionProps {
 
 const KidsSelection = ({ questions, answers }: KidsSelectionProps) => {
   const { userId } = useUserContext();
-  const [currentQuestionId, setCurrentQuestionId] = useState(1);
+  const [transition, setTransition] = useState<boolean>(true);
+  const [currentQuestionId, setCurrentQuestionId] = useState<number>(1);
   const currentQuestion = questions[currentQuestionId - 1];
   const [questionStates, setQuestionStates] = useState(() => {
     return Object.fromEntries(
@@ -41,6 +43,8 @@ const KidsSelection = ({ questions, answers }: KidsSelectionProps) => {
   );
 
   console.log(questionStates);
+  console.log(currentQuestionId);
+
   return (
     <div
       className={`relative h-full transition-all duration-300 ${colorStateStyles} overflow-hidden`}
@@ -51,33 +55,53 @@ const KidsSelection = ({ questions, answers }: KidsSelectionProps) => {
         <AnimatePresence mode="wait">
           <motion.div
             key={currentQuestionId}
-            initial={{ x: "100%", opacity: 0 }}
+            initial={{ opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
-            exit={{ x: "-100%", opacity: 0 }}
+            exit={{ opacity: 0 }}
             transition={{ duration: 0.4, ease: "easeOut" }}
             className="absolute w-full h-full flex flex-col justify-center items-center text-center"
           >
-            <section className={wrapperStyles}>
-              <div className={containerStyles}>
-                {answers.map((answer, index) =>
-                  answer.question_id === currentQuestionId ? (
-                    <KidAnswer
-                      key={answer.answer_id}
-                      index={index}
-                      userId={userId}
-                      questionId={answer.question_id}
-                      answerId={answer.answer_id}
-                      containerType={currentQuestion.container_type}
-                      buttonType={answer.button_type}
-                      buttonStyle={answer.button_style}
-                      questionStates={questionStates}
-                      setQuestionStates={setQuestionStates}
-                      setCurrentQuestionId={setCurrentQuestionId}
-                    />
-                  ) : null
-                )}
-              </div>
-            </section>
+            {transition ? (
+              <Transition
+                setTransition={setTransition}
+                questionStates={questionStates}
+              />
+            ) : (
+              <motion.div
+                key={currentQuestionId}
+                initial={{ x: "100%", opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                exit={{ x: "-100%", opacity: 0 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
+                className="absolute w-full h-full flex flex-col justify-center items-center text-center"
+              >
+                <section className={wrapperStyles}>
+                  <h1 className="text-4xl mt-5 bg-white">
+                    {currentQuestion.question_text}
+                  </h1>
+                  <div className={containerStyles}>
+                    {answers.map((answer, index) =>
+                      answer.question_id === currentQuestionId ? (
+                        <KidAnswer
+                          key={answer.answer_id}
+                          index={index}
+                          userId={userId}
+                          questionId={answer.question_id}
+                          answerId={answer.answer_id}
+                          containerType={currentQuestion.container_type}
+                          buttonType={answer.button_type}
+                          buttonStyle={answer.button_style}
+                          questionStates={questionStates}
+                          setQuestionStates={setQuestionStates}
+                          setTransition={setTransition}
+                          setCurrentQuestionId={setCurrentQuestionId}
+                        />
+                      ) : null
+                    )}
+                  </div>
+                </section>
+              </motion.div>
+            )}
           </motion.div>
         </AnimatePresence>
         <WeatherLayer weather={questionStates["weather"]} />

@@ -1,11 +1,11 @@
 import { emojiBlast } from "emoji-blast";
 
 // ------------------- "Emotions"
-export const happyBlast = (element: HTMLButtonElement) => {
+export const happyBlast = (element: HTMLDivElement) => {
   const rect = element.getBoundingClientRect();
   const x = rect.left + rect.width / 2;
   const y = rect.top + rect.height / 2;
-  const numSmileys = 8;
+  const numSmileys = 15;
   const maxJumpHeight = 50;
 
   for (let i = 0; i < numSmileys; i++) {
@@ -16,24 +16,24 @@ export const happyBlast = (element: HTMLButtonElement) => {
         emojis: ["😊"],
         position: { x, y },
         physics: {
-          fontSize: 100,
+          fontSize: { min: 50, max: 150 },
           gravity: 1,
           initialVelocities: {
-            x: Math.random() * 40 - 20,
+            x: Math.random() * 100 - 50,
             y: -jumpHeight,
             rotation: 5,
           },
         },
       });
-    }, i * 100);
+    }, i * 20);
   }
 };
 
-export const sadBlast = (element: HTMLButtonElement) => {
+export const sadBlast = (element: HTMLDivElement) => {
   const rect = element.getBoundingClientRect();
-  const leftEyeX = rect.left + rect.width * 0.35;
-  const rightEyeX = rect.left + rect.width * 0.65;
-  const eyeY = rect.top + rect.height * 0.4;
+  const leftEyeX = rect.left + rect.width * 0.1;
+  const rightEyeX = rect.left + rect.width * 0.9;
+  const eyeY = rect.top + rect.height * 0.75;
 
   const tearPositions = [
     { x: leftEyeX, y: eyeY },
@@ -48,11 +48,11 @@ export const sadBlast = (element: HTMLButtonElement) => {
           emojis: ["💧"],
           position: { x, y },
           physics: {
-            fontSize: { max: 70, min: 25 },
+            fontSize: { max: 75, min: 35 },
             gravity: 1.2,
             initialVelocities: {
               rotation: { max: 0, min: 0 },
-              x: { max: 5, min: -5 },
+              x: { max: 2, min: -2 },
               y: { max: -5, min: -10 },
             },
           },
@@ -62,25 +62,25 @@ export const sadBlast = (element: HTMLButtonElement) => {
   });
 };
 
-export const angryBlast = (element: HTMLButtonElement) => {
+export const angryBlast = (element: HTMLDivElement) => {
   const rect = element.getBoundingClientRect();
-  const head = rect.top + rect.height * 0.025;
+  const head = rect.top - 75;
 
   for (let i = 0; i < 15; i++) {
     const x = rect.left + rect.width * (0.2 + Math.random() * 0.6);
     setTimeout(() => {
       emojiBlast({
         className: "fader",
-        emojiCount: 3,
+        emojiCount: 1,
         emojis: ["🔥"],
         position: { x, y: head },
         physics: {
-          fontSize: { max: 8 * i, min: 30 },
+          fontSize: { max: 15 * i, min: 100 },
           gravity: -0.01,
           initialVelocities: {
             rotation: { max: 0, min: 0 },
-            x: { max: 1, min: -1 },
-            y: { max: -5, min: -1 },
+            x: { max: 5, min: -5 },
+            y: { max: -10, min: -10 },
           },
         },
       });
@@ -88,11 +88,11 @@ export const angryBlast = (element: HTMLButtonElement) => {
   }
 };
 
-export const excitedBlast = (element: HTMLButtonElement) => {
+export const excitedBlast = (element: HTMLDivElement) => {
   const rect = element.getBoundingClientRect();
-  const leftEyeX = rect.left + rect.width * 0.35;
-  const rightEyeX = rect.left + rect.width * 0.65;
-  const eyeY = rect.top + rect.height * 0.4;
+  const leftEyeX = rect.left + rect.width * 0.05;
+  const rightEyeX = rect.left + rect.width * 0.95;
+  const eyeY = rect.top + rect.height * 0.25;
 
   const starPositions = [
     { x: leftEyeX, y: eyeY },
@@ -100,14 +100,15 @@ export const excitedBlast = (element: HTMLButtonElement) => {
   ];
 
   starPositions.forEach(({ x, y }) => {
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 8; i++) {
       setTimeout(() => {
         emojiBlast({
+          className: "fader",
           emojiCount: 1,
           emojis: ["✨"],
           position: { x, y },
           physics: {
-            fontSize: { max: 70, min: 25 },
+            fontSize: { max: 150, min: 25 },
             gravity: -1,
             initialVelocities: {
               rotation: { max: 10, min: -10 },
@@ -116,12 +117,12 @@ export const excitedBlast = (element: HTMLButtonElement) => {
             },
           },
         });
-      }, i * 100);
+      }, i * 200);
     }
   });
 };
 
-export const sillyBlast = (element: HTMLButtonElement) => {
+export const sillyBlast = (element: HTMLDivElement) => {
   const rect = element.getBoundingClientRect();
   const x = rect.left + rect.width / 2;
   const y = rect.top + rect.height / 2;
@@ -142,15 +143,15 @@ export const sillyBlast = (element: HTMLButtonElement) => {
   });
 };
 
-export const scaredBlast = (element: HTMLButtonElement) => {
+export const scaredBlast = (element: HTMLDivElement) => {
   const rect = element.getBoundingClientRect();
-  const leftHeadX = rect.left + rect.width * 0.35;
-  const rightHeadX = rect.left + rect.width * 0.65;
-  const headY = rect.top - 20;
+  const leftHeadX = rect.left;
+  const rightHeadX = rect.right;
+  const headY = rect.top - 80;
 
   const tearPositions = [leftHeadX, rightHeadX];
 
-  for (let i = 0; i < 6; i++) {
+  for (let i = 0; i < 8; i++) {
     setTimeout(() => {
       const positionX = tearPositions[i % 2];
       const direction = positionX === leftHeadX ? -1 : 1;
@@ -159,7 +160,7 @@ export const scaredBlast = (element: HTMLButtonElement) => {
         emojis: ["💧"],
         position: { x: positionX, y: headY },
         physics: {
-          fontSize: { max: 50, min: 20 },
+          fontSize: { max: 80, min: 30 },
           gravity: 1.2,
           initialVelocities: {
             rotation: { max: 0, min: 0 },
@@ -168,11 +169,11 @@ export const scaredBlast = (element: HTMLButtonElement) => {
           },
         },
       });
-    }, i * 150);
+    }, i * 100);
   }
 };
 
-export const boredBlast = (element: HTMLButtonElement) => {
+export const boredBlast = (element: HTMLDivElement) => {
   const rect = element.getBoundingClientRect();
   const x = rect.left + rect.width / 2;
   const y = rect.top + rect.height / 2 + 100;
@@ -228,9 +229,9 @@ export const boredBlast = (element: HTMLButtonElement) => {
   });
 };
 
-export const nervousBlast = (element: HTMLButtonElement) => {
+export const nervousBlast = (element: HTMLDivElement) => {
   const rect = element.getBoundingClientRect();
-  const head = rect.top + rect.height * 0.025;
+  const head = rect.top - 120;
 
   for (let i = 0; i < 10; i++) {
     const x = rect.left + rect.width * (0.2 + Math.random() * 0.6);
@@ -241,22 +242,22 @@ export const nervousBlast = (element: HTMLButtonElement) => {
         emojis: ["❔", "❕"],
         position: { x, y: head },
         physics: {
-          fontSize: { max: 10 * i, min: 40 },
-          gravity: -0.01,
+          fontSize: { max: 20 * i, min: 80 },
+          gravity: -0.05,
           initialVelocities: {
             rotation: { max: 0, min: 0 },
-            x: { max: 1, min: -1 },
-            y: { max: -2, min: -1 },
+            x: { max: 2, min: -2 },
+            y: { max: -5, min: -3 },
           },
         },
       });
-    }, i * 50);
+    }, i * 200);
   }
 };
 
-export const tiredBlast = (element: HTMLButtonElement) => {
+export const tiredBlast = (element: HTMLDivElement) => {
   const rect = element.getBoundingClientRect();
-  const head = rect.top + rect.height * 0.025;
+  const head = rect.top;
 
   for (let i = 0; i < 5; i++) {
     const x = rect.left + rect.width * (0.2 + Math.random() * 0.6);
@@ -267,20 +268,15 @@ export const tiredBlast = (element: HTMLButtonElement) => {
         emojis: ["💤"],
         position: { x, y: head },
         physics: {
-          fontSize: { max: 35 * i, min: 40 },
-          gravity: -0.01,
+          fontSize: { max: 50 * i, min: 90 },
+          gravity: -0.3,
           initialVelocities: {
             rotation: { max: 0, min: 0 },
-            x: { max: 1, min: -1 },
-            y: { max: -4, min: -1 },
+            x: { max: 2, min: -2 },
+            y: { max: -3, min: -1 },
           },
         },
       });
     }, i * 250);
   }
 };
-// -------------------
-
-// ------------------- "Weather"
-
-//
