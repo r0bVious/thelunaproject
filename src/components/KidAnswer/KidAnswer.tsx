@@ -67,7 +67,7 @@ const FeelingButton: React.FC<ButtonProps> = ({
   index,
 }) => {
   const buttonStyles =
-    "font-bold md:h-48 md:w-48 flex flex-col justify-evenly items-center text-3xl border-4 rounded-2xl";
+    "font-bold flex flex-col justify-evenly items-center md:text-3xl text-2xl rounded-2xl";
 
   return (
     <motion.button
@@ -84,7 +84,7 @@ const FeelingButton: React.FC<ButtonProps> = ({
       }}
     >
       <div
-        className="rounded-full md:h-36 md:w-36 h-32 w-32 flex justify-center items-center"
+        className="rounded-full md:h-36 md:w-36 h-18 w-18 flex justify-center items-center"
         style={{
           backgroundColor: questionStates["colors"] || "#D1D5DB",
         }}
@@ -186,7 +186,6 @@ interface AnswerButtonProps {
     React.SetStateAction<Record<string, string | null>>
   >;
   setTransition: React.Dispatch<React.SetStateAction<boolean>>;
-  setCurrentQuestionId: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const KidAnswer = ({
@@ -200,7 +199,6 @@ const KidAnswer = ({
   questionStates,
   setQuestionStates,
   setTransition,
-  setCurrentQuestionId,
 }: AnswerButtonProps) => {
   const handleClick = async () => {
     setQuestionStates((prevStates) => ({
@@ -232,7 +230,6 @@ const KidAnswer = ({
     }
 
     setTransition(true);
-    setCurrentQuestionId((prev) => prev + 1);
   };
 
   return (

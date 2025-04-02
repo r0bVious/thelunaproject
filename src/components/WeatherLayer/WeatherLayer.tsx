@@ -3,7 +3,6 @@ import { useEffect, useRef, forwardRef, useState } from "react";
 import "./WeatherLayerStyles.css";
 import { motion } from "motion/react";
 import Snowfall from "react-snowfall";
-import Image from "next/image";
 
 const Rain = forwardRef<HTMLDivElement>((_, ref) => {
   useEffect(() => {
@@ -63,25 +62,30 @@ const Sunny = () => {
 
 const Cloudy = () => {
   const numClouds = 4;
-  const [clouds, setClouds] = useState<number[]>([]);
+  const [clouds, setClouds] = useState<
+    { size: number; top: number; left: number }[]
+  >([]);
 
   useEffect(() => {
     setClouds(
-      Array.from(
-        { length: numClouds },
-        () => Math.floor(Math.random() * 300) + 100
-      )
+      Array.from({ length: numClouds }, () => ({
+        size: Math.floor(Math.random() * 200) + 50,
+        top: Math.random() * 50,
+        left: Math.random() * 100,
+      }))
     );
   }, []);
 
   return (
-    <div className="relative h-full w-full">
-      {clouds.map((size, i) => (
+    <div className="relative h-full w-full opacity-75">
+      {clouds.map((cloud, i) => (
         <div
           key={i}
           className="cloud absolute"
           style={{
-            fontSize: `${size}px`,
+            fontSize: `${cloud.size}px`,
+            top: `${cloud.top}%`,
+            left: `${cloud.left}%`,
           }}
         >
           ☁️

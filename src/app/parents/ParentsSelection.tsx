@@ -3,11 +3,14 @@ import { useState } from "react";
 import ConditionSelector from "@/components/ConditionSelector";
 import { PhysResProps, Symptom } from "@/types";
 import { SymptomSelector } from "./SymptomSelector";
-import { useUserContext } from "@/contexts/UserContext";
+import { useSession } from "next-auth/react";
+import Link from "next/link";
 
-const DailyPhysSelection = ({ symptoms }: { symptoms: Symptom[] }) => {
-  const { userId } = useUserContext();
-  console.log("userid in parents' selection", userId);
+const ParentsSelection = ({ symptoms }: { symptoms: Symptom[] }) => {
+  const { data: session } = useSession();
+  const childName = session?.user?.childname ?? null;
+  const userId = session?.user?.userId ?? null;
+
   const [error, setError] = useState<string | null>(null);
   const [formData, setFormData] = useState<PhysResProps>({
     userId: userId,
@@ -75,53 +78,88 @@ const DailyPhysSelection = ({ symptoms }: { symptoms: Symptom[] }) => {
     }
   };
 
+  const inputClasses =
+    "text-center w-full py-6 bg-white rounded-lg border-1 border-black";
+
   return (
-    <div className="h-full w-full">
+    <div className="h-full w-full font-bold font-mono md:text-2xl">
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col bg-slate-500 p-2 rounded-xl items-center justify-evenly h-full"
+        className="flex flex-col p-2 items-center justify-evenly h-full"
       >
-        <div className="w-full flex flex-col gap-2 items-center">
-          <p className="m-0 p-0">Daily Measurements:</p>
-          <input
-            name="height"
-            placeholder="Height in cm"
-            type="text"
-            value={formData.height ?? ""}
-            onChange={handleInputChange}
-          />
-          <input
-            name="weight"
-            placeholder="Weight in kg"
-            type="text"
-            value={formData.weight ?? ""}
-            onChange={handleInputChange}
-          />
-          <input
-            name="hoursSlept"
-            placeholder="Hours Slept"
-            type="text"
-            value={formData.hoursSlept ?? ""}
-            onChange={handleInputChange}
+        <div className="w-full min-h-1/4 flex flex-col justify-evenly">
+          <div className="w-full flex-col flex justify-evenly">
+            <h1 className="px-4 bg-parent-bg rounded-t-2xl w-fit">
+              Daily Measurements:
+            </h1>
+            <div className="bg-parent-bg rounded-b-xl rounded-tr-xl pb-1 p-2 shadow-[2px_2px_1px_rgba(0,0,0,5)]">
+              <div className="w-full flex gap-2">
+                <div className="flex flex-col text-center flex-1">
+                  <input
+                    className={inputClasses}
+                    name="height"
+                    placeholder="Height (cm)"
+                    type="text"
+                    value={formData.height ?? ""}
+                    onChange={handleInputChange}
+                  />
+                  <p>cm</p>
+                </div>
+                <div className="flex flex-col text-center flex-1">
+                  <input
+                    className={inputClasses}
+                    name="weight"
+                    placeholder="Weight (kg)"
+                    type="text"
+                    value={formData.weight ?? ""}
+                    onChange={handleInputChange}
+                  />
+                  <p>kg</p>
+                </div>
+                <div className="flex flex-col text-center flex-1">
+                  <input
+                    className={inputClasses}
+                    name="hoursSlept"
+                    placeholder="Hours Slept"
+                    type="text"
+                    value={formData.hoursSlept ?? ""}
+                    onChange={handleInputChange}
+                  />
+                  <p>hours</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ConditionSelector
+            name="condition"
+            value={formData.condition ?? null}
+            onChange={handleConditionChange}
+            childName={childName}
           />
         </div>
-        <ConditionSelector
-          name="condition"
-          value={formData.condition ?? null}
-          onChange={handleConditionChange}
-        />
         <SymptomSelector
           symptoms={symptoms}
           value={formData.symptoms ?? {}}
           onChange={handleSymptomChange}
         />
         {error && <p className="text-red-500">{error}</p>}
-        <button type="submit" className="mt-2 w-full">
-          Submit
-        </button>
+        <div className="w-full md:h-24 h-18 text-white text-2xl mt-2 flex gap-5">
+          <Link
+            href="./"
+            className="rounded-2xl bg-red-500 shadow-[4px_4px_0px_rgba(0,0,0,5)] w-1/4 flex justify-center items-center"
+          >
+            Back
+          </Link>
+          <button
+            type="submit"
+            className="rounded-2xl bg-blue-400 shadow-[4px_4px_0px_rgba(0,0,0,5)] flex-1"
+          >
+            Submit
+          </button>
+        </div>
       </form>
     </div>
   );
 };
 
-export { DailyPhysSelection };
+export { ParentsSelection };

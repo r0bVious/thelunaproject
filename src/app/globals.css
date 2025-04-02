@@ -16,6 +16,7 @@
   --color-dark-text: #eeefe9;
   --color-dark-border: #000;
   --color-secondary-black: #212121;
+  --color-parent-bg: oklch(0.704 0.04 256.788);
 
   --radius-base: 10px;
   --radius-lg: var(--radius);
@@ -112,5 +113,39 @@
   }
   to {
     opacity: 0;
+  }
+}
+
+.wavebye {
+  animation: wavebye 4s ease-in-out alternate;
+}
+
+@keyframes wavebye {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(75deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes wiggle {
+  0% {
+    transform: rotate(-15deg);
+  }
+  100% {
+    transform: rotate(15deg);
+  }
+}
+
+@keyframes pulseright {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(10%);
   }
 }

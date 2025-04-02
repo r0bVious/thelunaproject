@@ -20,7 +20,7 @@ interface KidsSelectionProps {
 
 const KidsSelection = ({ questions, answers }: KidsSelectionProps) => {
   const { userId } = useUserContext();
-  const [transition, setTransition] = useState<boolean>(true);
+  const [transition, setTransition] = useState<boolean>(false);
   const [currentQuestionId, setCurrentQuestionId] = useState<number>(1);
   const currentQuestion = questions[currentQuestionId - 1];
   const [questionStates, setQuestionStates] = useState(() => {
@@ -42,12 +42,9 @@ const KidsSelection = ({ questions, answers }: KidsSelectionProps) => {
     questionStates["colors"] || ""
   );
 
-  console.log(questionStates);
-  console.log(currentQuestionId);
-
   return (
     <div
-      className={`relative h-full transition-all duration-300 ${colorStateStyles} overflow-hidden`}
+      className={`flex h-full transition-all duration-300 ${colorStateStyles} overflow-hidden`}
     >
       <main
         className={`flex flex-col justify-evenly h-full items-center relative w-full`}
@@ -65,6 +62,8 @@ const KidsSelection = ({ questions, answers }: KidsSelectionProps) => {
               <Transition
                 setTransition={setTransition}
                 questionStates={questionStates}
+                setCurrentQuestionId={setCurrentQuestionId}
+                currentQuestionId={currentQuestionId}
               />
             ) : (
               <motion.div
@@ -76,7 +75,7 @@ const KidsSelection = ({ questions, answers }: KidsSelectionProps) => {
                 className="absolute w-full h-full flex flex-col justify-center items-center text-center"
               >
                 <section className={wrapperStyles}>
-                  <h1 className="text-4xl mt-5 bg-white">
+                  <h1 className="md:text-4xl text-3xl mt-5">
                     {currentQuestion.question_text}
                   </h1>
                   <div className={containerStyles}>
@@ -94,7 +93,6 @@ const KidsSelection = ({ questions, answers }: KidsSelectionProps) => {
                           questionStates={questionStates}
                           setQuestionStates={setQuestionStates}
                           setTransition={setTransition}
-                          setCurrentQuestionId={setCurrentQuestionId}
                         />
                       ) : null
                     )}

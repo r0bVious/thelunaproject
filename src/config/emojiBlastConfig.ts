@@ -31,9 +31,9 @@ export const happyBlast = (element: HTMLDivElement) => {
 
 export const sadBlast = (element: HTMLDivElement) => {
   const rect = element.getBoundingClientRect();
-  const leftEyeX = rect.left + rect.width * 0.1;
-  const rightEyeX = rect.left + rect.width * 0.9;
-  const eyeY = rect.top + rect.height * 0.75;
+  const leftEyeX = rect.left + rect.width * 0.25;
+  const rightEyeX = rect.left + rect.width * 0.75;
+  const eyeY = rect.top + rect.height * 0.65;
 
   const tearPositions = [
     { x: leftEyeX, y: eyeY },
@@ -64,7 +64,7 @@ export const sadBlast = (element: HTMLDivElement) => {
 
 export const angryBlast = (element: HTMLDivElement) => {
   const rect = element.getBoundingClientRect();
-  const head = rect.top - 75;
+  const head = rect.top * 1.05;
 
   for (let i = 0; i < 15; i++) {
     const x = rect.left + rect.width * (0.2 + Math.random() * 0.6);
@@ -90,9 +90,9 @@ export const angryBlast = (element: HTMLDivElement) => {
 
 export const excitedBlast = (element: HTMLDivElement) => {
   const rect = element.getBoundingClientRect();
-  const leftEyeX = rect.left + rect.width * 0.05;
-  const rightEyeX = rect.left + rect.width * 0.95;
-  const eyeY = rect.top + rect.height * 0.25;
+  const leftEyeX = rect.left + rect.width * 0.3;
+  const rightEyeX = rect.left + rect.width * 0.7;
+  const eyeY = rect.top + rect.height * 0.5;
 
   const starPositions = [
     { x: leftEyeX, y: eyeY },
@@ -145,9 +145,9 @@ export const sillyBlast = (element: HTMLDivElement) => {
 
 export const scaredBlast = (element: HTMLDivElement) => {
   const rect = element.getBoundingClientRect();
-  const leftHeadX = rect.left;
-  const rightHeadX = rect.right;
-  const headY = rect.top - 80;
+  const leftHeadX = rect.left * 1.2;
+  const rightHeadX = rect.right * 0.9;
+  const headY = rect.top * 0.95;
 
   const tearPositions = [leftHeadX, rightHeadX];
 
@@ -231,7 +231,7 @@ export const boredBlast = (element: HTMLDivElement) => {
 
 export const nervousBlast = (element: HTMLDivElement) => {
   const rect = element.getBoundingClientRect();
-  const head = rect.top - 120;
+  const head = rect.top * 0.9;
 
   for (let i = 0; i < 10; i++) {
     const x = rect.left + rect.width * (0.2 + Math.random() * 0.6);

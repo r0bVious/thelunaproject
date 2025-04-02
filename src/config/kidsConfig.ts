@@ -6,19 +6,19 @@ interface QuestionContainerProps {
   containerStyles: string;
   effectConfig?: {
     stateType: string;
-    initialValue: null;
+    initialValue: null | string;
   };
 }
 
 //baseWrapper is just the app centering within AnimatePresence
-const baseWrapper = "w-full h-full flex flex-col justify-center";
+const baseWrapper = "w-full h-full flex flex-col justify-between";
 //baseCont is the actual question container
-const baseCont = "flex rounded-2xl h-full m-5 overflow-hidden";
+const baseCont = "flex rounded-2xl h-full md:m-5 m-2 overflow-hidden";
 export const kidsQuesConfig: Record<QuestionStyleKey, QuestionContainerProps> =
   {
     colors: {
       wrapperStyles: `${baseWrapper}`,
-      containerStyles: `${baseCont} flex-col`,
+      containerStyles: `${baseCont} flex-col border-2`,
       effectConfig: {
         stateType: "string",
         initialValue: null,
@@ -26,7 +26,7 @@ export const kidsQuesConfig: Record<QuestionStyleKey, QuestionContainerProps> =
     },
     feelings: {
       wrapperStyles: `${baseWrapper}`,
-      containerStyles: `${baseCont} flex-wrap justify-evenly items-center bg-[rgba(255,255,255,0.5)]`,
+      containerStyles: `${baseCont} grid grid-cols-3 gap-2 bg-[rgba(255,255,255,0.5)]`,
       effectConfig: {
         stateType: "string",
         initialValue: null,
@@ -61,7 +61,7 @@ export const stateEffectConfig: Record<
         white:
           "text-black bg-linear-45 from-gray-100 to-white animate-gradient",
         gray: "bg-linear-45 from-gray-300 to-gray-500 animate-gradient",
-      }[state] || "bg-linear-45 from-gray-500 to-gray-700 animate-gradient"),
+      }[state] || ""),
   },
   weather: {
     stateEffect: (state) =>

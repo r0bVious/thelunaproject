@@ -18,23 +18,25 @@ const SymptomButton = ({
     onChange(newSeverity);
   };
 
+  const severityColors = ["bg-yellow-300", "bg-orange-300", "bg-red-400"];
+  const activeColor =
+    severity > 0 ? severityColors[severity - 1] : "bg-slate-200";
+
   return (
-    <div className="w-full min-h-24 flex flex-col items-center">
+    <div className="border-1 border-black w-full flex h-full flex-col items-center bg-slate-100 rounded-2xl">
       <input type="hidden" name={sympName} value={severity} />
       <button
         type="button"
-        className="h-full w-full flex flex-col justify-evenly items-center"
+        className="rounded-2xl h-full w-full flex flex-col justify-evenly items-center"
         onClick={handleSympClick}
       >
-        <p className="h-3/4 break-words text-wrap flex items-center">
-          {sympName}
-        </p>
-        <div className="h-1/4 flex gap-1">
+        <p className="md:text-2xl">{sympName}</p>
+        <div className="flex gap-2">
           {Array.from({ length: maxSeverity }).map((_, index) => (
             <div
               key={index}
               className={`h-4 w-4 rounded border-2 border-border ${
-                severity >= index + 1 ? "bg-green-400" : "bg-slate-200"
+                severity >= index + 1 ? activeColor : "bg-slate-200"
               }`}
             />
           ))}

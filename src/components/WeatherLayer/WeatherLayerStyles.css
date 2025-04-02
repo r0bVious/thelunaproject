@@ -27,6 +27,16 @@ hr {
   animation-duration: 45s;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+@keyframes cloud {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(50%);
+  }
 }
 
 .windy {
