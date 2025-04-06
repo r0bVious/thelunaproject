@@ -31,13 +31,13 @@ export default function Login() {
           {userId != null ? (
             <div className="w-full md:h-24 h-42 text-white text-2xl mt-2 flex md:flex-row flex-col gap-10 justify-evenly px-10">
               <Link
-                href="./parents"
+                href="/parents"
                 className="rounded-2xl bg-red-500 shadow-[4px_4px_0px_rgba(0,0,0,5)] flex-1 flex justify-center items-center"
               >
                 Parents
               </Link>
               <Link
-                href="./kids"
+                href="/kids"
                 className="rounded-2xl bg-blue-400 shadow-[4px_4px_0px_rgba(0,0,0,5)] flex-1 flex justify-center items-center"
               >
                 Kids
