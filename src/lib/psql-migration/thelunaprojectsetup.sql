@@ -1,6 +1,6 @@
-CREATE DATABASE "the_luna_project";
+-- CREATE DATABASE "the_luna_project";
 
-\c "the_luna_project";
+-- \c "the_luna_project";
 
 -- Tables
 CREATE TABLE "question" (

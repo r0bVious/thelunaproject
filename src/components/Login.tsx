@@ -46,7 +46,7 @@ export default function Login() {
           ) : (
             <button
               onClick={() => signIn("google", { callbackUrl: "/" })}
-              className="md:w-1/2 h-24 text-white text-2xl mt-2 flex justify-center items-center gap-4 px-10 bg-[#4285F4] shadow-[4px_4px_0px_rgba(0,0,0,5)] rounded-2xl hover:bg-[#3367D6] transition-colors"
+              className="md:w-1/2 md:h-24 text-white md:text-2xl mt-2 flex justify-center items-center gap-4 md:p-10 p-4 bg-[#4285F4] shadow-[4px_4px_0px_rgba(0,0,0,5)] rounded-2xl hover:bg-[#3367D6] transition-colors"
             >
               <div className="bg-white rounded-full p-2">
                 <Image
