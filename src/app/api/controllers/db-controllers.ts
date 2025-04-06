@@ -51,13 +51,11 @@ const insertPhysRes = async ({
     if (Object.keys(dailyPhysData).length > 1) {
       const columns = Object.keys(dailyPhysData);
       const values = Object.values(dailyPhysData);
-      const placeholders = columns.map((_, i) => `$${i + 1}`).join(", ");
 
-      const query = `INSERT INTO daily_phys (${columns.join(
-        ", "
-      )}) VALUES (${placeholders})`;
-
-      await sql`${query} ${values}`;
+      await sql`
+        INSERT INTO daily_phys (${columns.join(", ")})
+        VALUES (${values})
+      `;
     }
 
     if (symptoms && Object.keys(symptoms).length > 0) {
@@ -67,18 +65,13 @@ const insertPhysRes = async ({
         scale,
       ]);
 
-      const placeholders = symptomValues
-        .map((_, i) => `($${i * 3 + 1}, $${i * 3 + 2}, $${i * 3 + 3})`)
-        .join(", ");
-
       const flatValues = symptomValues.flat();
+      const placeholders = symptomValues.map(() => "(?, ?, ?)").join(", ");
 
-      const query = `
+      await sql`
         INSERT INTO user_symptoms (user_id, phys_sym_id, severity_scale)
-        VALUES ${placeholders}
+        VALUES ${placeholders} ${flatValues}
       `;
-
-      await sql`${query} ${flatValues}`;
       console.log("Symptoms insert successful");
     }
   } catch (error) {
