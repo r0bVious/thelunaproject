@@ -5,7 +5,7 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
 
-    const { userId, questionId, answerId } = body.formData;
+    const { userId, questionId, answerId } = body;
     if (!userId || !questionId || !answerId) {
       return NextResponse.json(
         { error: "Invalid data provided" },

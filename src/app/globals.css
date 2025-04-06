@@ -149,3 +149,12 @@
     transform: translateX(10%);
   }
 }
+
+@keyframes marquee {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(100%);
+  }
+}

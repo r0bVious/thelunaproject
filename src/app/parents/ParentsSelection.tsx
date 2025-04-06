@@ -10,6 +10,7 @@ const ParentsSelection = ({ symptoms }: { symptoms: Symptom[] }) => {
   const { data: session } = useSession();
   const childName = session?.user?.childname ?? null;
   const userId = session?.user?.userId ?? null;
+  const [dataSent, setDataSent] = useState<boolean>(false);
 
   const [error, setError] = useState<string | null>(null);
   const [formData, setFormData] = useState<PhysResProps>({
@@ -62,7 +63,6 @@ const ParentsSelection = ({ symptoms }: { symptoms: Symptom[] }) => {
         }),
       });
 
-      // resets form - good spot for user feedback here
       setFormData({
         userId: null,
         height: null,
@@ -72,6 +72,7 @@ const ParentsSelection = ({ symptoms }: { symptoms: Symptom[] }) => {
         symptoms: {},
       });
       setError(null);
+      setDataSent(true);
     } catch (error) {
       console.error("Error submitting form:", error);
       setError("An error occurred. Please try again.");
@@ -82,7 +83,7 @@ const ParentsSelection = ({ symptoms }: { symptoms: Symptom[] }) => {
     "text-center w-full py-6 bg-white rounded-lg border-1 border-black";
 
   return (
-    <div className="h-full w-full font-bold font-mono md:text-2xl">
+    <div className="relative h-full w-full font-bold font-mono md:text-2xl">
       <form
         onSubmit={handleSubmit}
         className="flex flex-col p-2 items-center justify-evenly h-full"
@@ -158,6 +159,20 @@ const ParentsSelection = ({ symptoms }: { symptoms: Symptom[] }) => {
           </button>
         </div>
       </form>
+      {dataSent && (
+        <div className="fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-50 flex items-center justify-center z-[100]">
+          <div className="bg-white p-8 rounded-2xl shadow-[4px_4px_0px_rgba(0,0,0,5)] relative max-w-md w-full mx-4">
+            <h2 className="text-2xl font-bold mb-4 text-center">Success!</h2>
+            <p className="text-center mb-6">Data sent successfully!</p>
+            <Link
+              href="./"
+              className="w-full py-3 bg-blue-400 text-white rounded-xl hover:bg-blue-500 transition-colors"
+            >
+              Close
+            </Link>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

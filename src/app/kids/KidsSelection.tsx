@@ -23,6 +23,8 @@ const KidsSelection = ({ questions, answers }: KidsSelectionProps) => {
   const [transition, setTransition] = useState<boolean>(false);
   const [currentQuestionId, setCurrentQuestionId] = useState<number>(1);
   const currentQuestion = questions[currentQuestionId - 1];
+
+  //this creates an object-state for persistent access to ongoing key-values chosen by kid
   const [questionStates, setQuestionStates] = useState(() => {
     return Object.fromEntries(
       Object.entries(kidsQuesConfig).map(([key, config]) => [
