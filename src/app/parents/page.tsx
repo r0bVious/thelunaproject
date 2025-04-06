@@ -1,12 +1,15 @@
-import { pool } from "../../lib/db-connection";
+import { sql } from "../../lib/db-connection";
 import { ParentsSelection } from "./ParentsSelection";
 
 export default async function Page() {
   try {
-    const symResult = await pool.query("SELECT * FROM phys_sym");
-    const symptoms = symResult.rows;
+    const symptoms = await sql`SELECT * FROM phys_sym`;
+    const mappedSymptoms = symptoms.map(s => ({
+      phys_sym_id: s.phys_sym_id,
+      symptom_name: s.symptom_name
+    }));
 
-    return <ParentsSelection symptoms={symptoms} />;
+    return <ParentsSelection symptoms={mappedSymptoms} />;
   } catch (error) {
     console.error("Database query failed:", error);
     return <div>Error loading data. Please try again later.</div>;
