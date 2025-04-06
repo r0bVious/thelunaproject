@@ -1,13 +1,16 @@
-import { pool } from "@/lib/db-connection";
+import { neon } from "@neondatabase/serverless";
 import { KidResProps, PhysResProps, LoginProps } from "@/types";
+
+const sql = neon(process.env.DATABASE_URL!);
 
 const getQsAndAs = async () => {
   try {
-    const qResult = await pool.query("SELECT * FROM question");
-    const aResult = await pool.query("SELECT * FROM answer");
+    const questions = await sql`SELECT * FROM question`;
+    const answers = await sql`SELECT * FROM answer`;
+
     return {
-      questions: qResult.rows,
-      answers: aResult.rows,
+      questions,
+      answers,
     };
   } catch (error) {
     console.error(error);
@@ -17,11 +20,11 @@ const getQsAndAs = async () => {
 
 const insertKidRes = async ({ userId, questionId, answerId }: KidResProps) => {
   try {
-    const insertResult = await pool.query(
-      "INSERT INTO response (user_id, question_id, answer_id) VALUES ($1, $2, $3)",
-      [userId, questionId, answerId]
-    );
-    console.log("Insert successful:", insertResult);
+    await sql`
+      INSERT INTO response (user_id, question_id, answer_id)
+      VALUES (${userId}, ${questionId}, ${answerId})
+    `;
+    console.log("Insert successful");
   } catch (error) {
     console.error("Insert failure:", error);
     throw new Error("Failed to insert data");
@@ -37,7 +40,7 @@ const insertPhysRes = async ({
   symptoms,
 }: PhysResProps) => {
   try {
-    const dailyPhysData = {
+    const dailyPhysData: Record<string, any> = {
       user_id: userId,
       ...(height != null && { height_cm: height }),
       ...(weight != null && { weight_kg: weight }),
@@ -46,39 +49,37 @@ const insertPhysRes = async ({
     };
 
     if (Object.keys(dailyPhysData).length > 1) {
-      const dailyPhysColumns = Object.keys(dailyPhysData).join(", ");
-      const dailyPhysValues = Object.values(dailyPhysData);
-      const dailyPhysPlaceholders = dailyPhysValues
-        .map((_, index) => `$${index + 1}`)
-        .join(", ");
+      const columns = Object.keys(dailyPhysData);
+      const values = Object.values(dailyPhysData);
+      const placeholders = columns.map((_, i) => `$${i + 1}`).join(", ");
 
-      const dailyPhysQuery = `INSERT INTO daily_phys (${dailyPhysColumns}) VALUES (${dailyPhysPlaceholders})`;
-      const dailyPhysResult = await pool.query(dailyPhysQuery, dailyPhysValues);
-      console.log(dailyPhysResult);
+      const query = `INSERT INTO daily_phys (${columns.join(
+        ", "
+      )}) VALUES (${placeholders})`;
+
+      await sql`${query} ${values}`;
     }
 
     if (symptoms && Object.keys(symptoms).length > 0) {
-      const symptomEntries = Object.entries(symptoms);
-      const symptomColumns = ["user_id", "phys_sym_id", "severity_scale"];
-      const symptomValues = symptomEntries.map(([key, value]) => [
+      const symptomValues = Object.entries(symptoms).map(([symId, scale]) => [
         userId,
-        Number(key),
-        value,
+        Number(symId),
+        scale,
       ]);
-      const flatSymptomValues = symptomValues.flat();
-      const symptomPlaceholders = symptomValues
-        .map(
-          (_, index) =>
-            `($${index * 3 + 1}, $${index * 3 + 2}, $${index * 3 + 3})`
-        )
+
+      const placeholders = symptomValues
+        .map((_, i) => `($${i * 3 + 1}, $${i * 3 + 2}, $${i * 3 + 3})`)
         .join(", ");
 
-      const symptomQuery = `INSERT INTO user_symptoms (${symptomColumns.join(
-        ", "
-      )}) VALUES ${symptomPlaceholders}`;
-      const symptomResult = await pool.query(symptomQuery, flatSymptomValues);
+      const flatValues = symptomValues.flat();
 
-      console.log("Symptoms insert successful:", symptomResult);
+      const query = `
+        INSERT INTO user_symptoms (user_id, phys_sym_id, severity_scale)
+        VALUES ${placeholders}
+      `;
+
+      await sql`${query} ${flatValues}`;
+      console.log("Symptoms insert successful");
     }
   } catch (error) {
     console.error("Insert failure:", error);
@@ -90,23 +91,23 @@ const insertSymptoms = async (
   symptoms: { userId: number; symId: number; severityScale: number }[]
 ) => {
   try {
-    const values = symptoms
-      .map((_, i) => `($1, $${i * 2 + 2}, $${i * 2 + 3})`)
-      .join(", ");
-
-    const params = symptoms.flatMap(({ userId, symId, severityScale }) => [
+    const values = symptoms.map(({ userId, symId, severityScale }) => [
       userId,
       symId,
       severityScale,
     ]);
+    const placeholders = values
+      .map((_, i) => `($${i * 3 + 1}, $${i * 3 + 2}, $${i * 3 + 3})`)
+      .join(", ");
+    const flatValues = values.flat();
 
     const query = `
       INSERT INTO user_symptoms (user_id, phys_sym_id, severity_scale)
-      VALUES ${values};
+      VALUES ${placeholders}
     `;
 
-    const insertResult = await pool.query(query, params);
-    console.log("Batch insert successful:", insertResult);
+    await sql`${query} ${flatValues}`;
+    console.log("Batch insert successful");
   } catch (error) {
     console.error("Batch insert failure:", error);
     throw new Error("Failed to insert data");
@@ -115,16 +116,16 @@ const insertSymptoms = async (
 
 const loginUser = async ({ userName }: LoginProps) => {
   try {
-    const loginResult = await pool.query(
-      `SELECT user_id, child_name FROM user_account WHERE user_name = $1`,
-      [userName]
-    );
+    const result = await sql`
+      SELECT user_id, child_name FROM user_account WHERE user_name = ${userName}
+    `;
 
-    if (loginResult.rows.length === 0) {
+    if (result.length === 0) {
       throw new Error("User not found");
     }
+
     console.log("Log in successful.");
-    return loginResult;
+    return result;
   } catch (error) {
     console.error("Login failure:", error);
     throw new Error("Failed to login at API");
@@ -133,14 +134,11 @@ const loginUser = async ({ userName }: LoginProps) => {
 
 const createUser = async ({ email }: { email: string }) => {
   try {
-    await pool.query(`INSERT INTO user_account (user_name) VALUES ($1)`, [
-      email,
-    ]);
-    const userId = await pool.query(
-      `SELECT user_id FROM user_account WHERE user_name = $1`,
-      [email]
-    );
-    return userId.rows[0]?.user_id || null;
+    await sql`INSERT INTO user_account (user_name) VALUES (${email})`;
+    const result = await sql`
+      SELECT user_id FROM user_account WHERE user_name = ${email}
+    `;
+    return result[0]?.user_id || null;
   } catch (error) {
     console.error("User creation failure:", error);
     throw new Error("Failed to create new user");

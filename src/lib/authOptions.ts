@@ -13,9 +13,9 @@ export const authOptions: NextAuthOptions = {
     async signIn({ user }) {
       if (!user.email) return false;
       const loginRes = await loginUser({ userName: user.email });
-      if (!loginRes?.rows?.length) return false;
-      (user as any).userId = loginRes.rows[0].user_id;
-      (user as any).childname = loginRes.rows[0].child_name;
+      if (!loginRes.length) return false;
+      (user as any).userId = loginRes[0].user_id;
+      (user as any).childname = loginRes[0].child_name;
       return true;
     },
     async jwt({ token, user }) {
