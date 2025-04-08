@@ -51,13 +51,15 @@ const insertPhysRes = async ({
     if (Object.keys(dailyPhysData).length > 1) {
       const columns = Object.keys(dailyPhysData);
       const values = Object.values(dailyPhysData);
+      const columnStr = columns.map((col) => `"${col}"`).join(", ");
+      const placeholders = values.map((_, i) => `$${i + 1}`).join(", ");
 
-      await sql`
-        INSERT INTO daily_phys (${columns.join(", ")})
-        VALUES (${values})
-      `;
+      const query = `INSERT INTO daily_phys (${columnStr}) VALUES (${placeholders})`;
+
+      await sql.query(query, values);
     }
 
+    // Insert into user_symptoms if symptoms are provided
     if (symptoms && Object.keys(symptoms).length > 0) {
       const symptomValues = Object.entries(symptoms).map(([symId, scale]) => [
         userId,
@@ -66,43 +68,21 @@ const insertPhysRes = async ({
       ]);
 
       const flatValues = symptomValues.flat();
-      const placeholders = symptomValues.map(() => "(?, ?, ?)").join(", ");
 
-      await sql`
+      const valuePlaceholders = symptomValues
+        .map((_, i) => `($${i * 3 + 1}, $${i * 3 + 2}, $${i * 3 + 3})`)
+        .join(", ");
+
+      const query = `
         INSERT INTO user_symptoms (user_id, phys_sym_id, severity_scale)
-        VALUES ${placeholders} ${flatValues}
-      `;
+        VALUES ${valuePlaceholders}`;
+
+      await sql.query(query, flatValues);
+
       console.log("Symptoms insert successful");
     }
   } catch (error) {
     console.error("Insert failure:", error);
-    throw new Error("Failed to insert data");
-  }
-};
-
-const insertSymptoms = async (
-  symptoms: { userId: number; symId: number; severityScale: number }[]
-) => {
-  try {
-    const values = symptoms.map(({ userId, symId, severityScale }) => [
-      userId,
-      symId,
-      severityScale,
-    ]);
-    const placeholders = values
-      .map((_, i) => `($${i * 3 + 1}, $${i * 3 + 2}, $${i * 3 + 3})`)
-      .join(", ");
-    const flatValues = values.flat();
-
-    const query = `
-      INSERT INTO user_symptoms (user_id, phys_sym_id, severity_scale)
-      VALUES ${placeholders}
-    `;
-
-    await sql`${query} ${flatValues}`;
-    console.log("Batch insert successful");
-  } catch (error) {
-    console.error("Batch insert failure:", error);
     throw new Error("Failed to insert data");
   }
 };
@@ -138,11 +118,4 @@ const createUser = async ({ email }: { email: string }) => {
   }
 };
 
-export {
-  getQsAndAs,
-  insertKidRes,
-  insertPhysRes,
-  insertSymptoms,
-  loginUser,
-  createUser,
-};
+export { getQsAndAs, insertKidRes, insertPhysRes, loginUser, createUser };

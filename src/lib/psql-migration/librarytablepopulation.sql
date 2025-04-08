@@ -5,7 +5,6 @@ INSERT INTO answer (question_id, answer_text, button_type, button_style) values
 (1, 'orange', 'color-swatch', 'orange'), 
 (1, 'yellow', 'color-swatch', 'yellow'), 
 (1, 'green', 'color-swatch', 'green'), 
-(1, 'sky blue', 'color-swatch', 'sky'), 
 (1, 'blue', 'color-swatch', 'blue'), 
 (1, 'purple', 'color-swatch', 'purple'), 
 (1, 'pink', 'color-swatch', 'pink'), 

@@ -49,7 +49,7 @@ const ParentsSelection = ({ symptoms }: { symptoms: Symptom[] }) => {
       formData.userId === 0 ||
       isNaN(formData.userId)
     ) {
-      setError("User ID is required and must be a valid number.");
+      setError("No User ID Found - Please log in again.");
       return;
     }
 
@@ -160,15 +160,15 @@ const ParentsSelection = ({ symptoms }: { symptoms: Symptom[] }) => {
         </div>
       </form>
       {dataSent && (
-        <div className="fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-50 flex items-center justify-center z-[100]">
-          <div className="bg-white p-8 rounded-2xl shadow-[4px_4px_0px_rgba(0,0,0,5)] relative max-w-md w-full mx-4">
-            <h2 className="text-2xl font-bold mb-4 text-center">Success!</h2>
-            <p className="text-center mb-6">Data sent successfully!</p>
+        <div className="fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-50 flex items-center justify-center z-[100] text-lg">
+          <div className="bg-white p-8 rounded-2xl shadow-[4px_4px_0px_rgba(0,0,0,5)] relative max-w-md w-full mx-4 flex flex-col items-center justify-center">
+            <h2 className="font-bold mb-4 text-center">Done!</h2>
+            <p className="text-center mb-6">Data sent successfully.</p>
             <Link
               href="./"
-              className="w-full py-3 bg-blue-400 text-white rounded-xl hover:bg-blue-500 transition-colors"
+              className="w-full py-3 bg-blue-400 text-white rounded-xl hover:bg-blue-500 transition-colors text-center"
             >
-              Close
+              Back to Home
             </Link>
           </div>
         </div>
