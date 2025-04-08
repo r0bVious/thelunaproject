@@ -41,7 +41,7 @@ const ParentsSelection = ({ symptoms }: { symptoms: Symptom[] }) => {
     }));
   };
 
-  const handleSubmit = async (e: React.ChangeEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (

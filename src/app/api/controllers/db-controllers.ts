@@ -24,9 +24,9 @@ const insertKidRes = async ({ userId, questionId, answerId }: KidResProps) => {
       INSERT INTO response (user_id, question_id, answer_id)
       VALUES (${userId}, ${questionId}, ${answerId})
     `;
-    console.log("Insert successful");
+    console.log("Kids Answer insert successful");
   } catch (error) {
-    console.error("Insert failure:", error);
+    console.error("Kids Answer insert failure:", error);
     throw new Error("Failed to insert data");
   }
 };
@@ -39,6 +39,7 @@ const insertPhysRes = async ({
   condition,
   symptoms,
 }: PhysResProps) => {
+  console.log("Inserting phys res?");
   try {
     const dailyPhysData: Record<string, any> = {
       user_id: userId,
