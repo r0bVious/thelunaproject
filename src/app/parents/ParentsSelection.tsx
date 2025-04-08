@@ -55,7 +55,7 @@ const ParentsSelection = ({ symptoms }: { symptoms: Symptom[] }) => {
 
     try {
       console.log(formData);
-      await fetch("/api/parents/sendphys", {
+      await fetch("/api/parents/sendPhys", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
