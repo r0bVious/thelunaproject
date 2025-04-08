@@ -56,7 +56,7 @@ export default function ConditionSelector({
             onClick={handleClick}
             className="w-1/4 h-full rounded-lg bg-blue-400 text-white font-semibold shadow-[-3px_0px_0px_rgba(255,255,255,5)]"
           >
-            <h1 className="h-full w-full flex justify-center items-center text-xl">
+            <h1 className="h-full w-full flex justify-center items-center">
               {conditions.find((c) => c.id === value)?.label || "Set Mood"}
             </h1>
           </button>

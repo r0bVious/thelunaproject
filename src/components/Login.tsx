@@ -9,16 +9,60 @@ import Image from "next/image";
 
 export default function Login() {
   const [childName, setChildName] = useState<string>("");
+  const [showPrompt, setShowPrompt] = useState(false);
+  const [tempName, setTempName] = useState("");
   const { setUserId } = useUserContext();
-  const { data: session } = useSession();
+  const { data: session, update } = useSession();
+
   const userId = session?.user?.userId;
+  let isNewUser = session?.user?.isNew;
 
   useEffect(() => {
     if (userId != null && session?.user?.name) {
       setUserId(userId);
-      setChildName(session.user.childname);
+      setChildName(session.user.childname || "");
     }
   }, [userId, session]);
+
+  useEffect(() => {
+    if (isNewUser && !childName) {
+      setShowPrompt(true);
+    }
+  }, [isNewUser]);
+
+  const handleSubmitChildName = async () => {
+    if (!tempName || !userId) return;
+
+    try {
+      const res = await fetch("/api/parents/setChildName", {
+        method: "POST",
+        body: JSON.stringify({ userId, childName: tempName }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (res.ok) {
+        const newSession = await update({
+          ...session,
+          user: {
+            ...session?.user,
+            isNew: false,
+            childname: tempName,
+          },
+        });
+
+        // Log the new session data
+        console.log("Updated session:", newSession?.user);
+
+        // Update local state
+        setChildName(tempName);
+        setShowPrompt(false);
+      }
+    } catch (err) {
+      console.error("Failed to set child name:", err);
+    }
+  };
 
   return (
     <>
@@ -27,6 +71,7 @@ export default function Login() {
         <div className="relative w-full">
           <NameScroller childName={childName} />
         </div>
+
         <div className="flex flex-col gap-2 w-full justify-center items-center">
           {userId != null ? (
             <div className="w-full md:h-24 h-42 text-white text-2xl mt-2 flex md:flex-row flex-col gap-10 justify-evenly px-10">
@@ -63,6 +108,7 @@ export default function Login() {
             </button>
           )}
         </div>
+
         <a
           className="absolute bottom-0 right-0 text-sm"
           href="https://www.vecteezy.com/free-vector/cartoon-eyes"
@@ -70,6 +116,27 @@ export default function Login() {
           Cartoon Eyes Vectors by Vecteezy
         </a>
       </section>
+      {showPrompt && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 shadow-xl w-11/12 max-w-md text-center space-y-4">
+            <h2 className="text-lg font-bold">Welcome!</h2>
+            <p>Please enter your child’s name to get started:</p>
+            <input
+              type="text"
+              className="w-full border rounded px-3 py-2"
+              value={tempName}
+              onChange={(e) => setTempName(e.target.value)}
+              placeholder="Child's Name"
+            />
+            <button
+              onClick={handleSubmitChildName}
+              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+            >
+              Submit
+            </button>
+          </div>
+        </div>
+      )}
     </>
   );
 }

@@ -90,16 +90,26 @@ const insertPhysRes = async ({
 
 const loginUser = async ({ userName }: LoginProps) => {
   try {
-    const result = await sql`
+    let result = await sql`
       SELECT user_id, child_name FROM user_account WHERE user_name = ${userName}
     `;
 
     if (result.length === 0) {
-      throw new Error("User not found");
+      try {
+        await createUser({ email: userName });
+
+        result = await sql`
+          SELECT user_id, child_name FROM user_account WHERE user_name = ${userName}
+        `;
+        return { status: "new", result };
+      } catch (error) {
+        console.error("User creation failure:", error);
+        throw new Error("Failed to create new user");
+      }
     }
 
     console.log("Log in successful.");
-    return result;
+    return { status: "existing", result };
   } catch (error) {
     console.error("Login failure:", error);
     throw new Error("Failed to login at API");

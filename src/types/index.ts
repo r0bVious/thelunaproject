@@ -2,6 +2,7 @@ declare module "next-auth" {
   interface User {
     userId: number;
     childname: string;
+    isNew?: boolean;
   }
 
   interface Session {
