@@ -67,7 +67,7 @@ export default function Login() {
   return (
     <>
       <NavBar />
-      <section className="relative flex flex-col justify-evenly items-center h-full w-full">
+      <section className="relative flex flex-col justify-evenly items-center h-full w-full pt-24">
         <div className="relative w-full">
           <NameScroller childName={childName} />
         </div>
@@ -89,26 +89,47 @@ export default function Login() {
               </Link>
             </div>
           ) : (
-            <button
-              onClick={() => signIn("google", { callbackUrl: "/" })}
-              className="md:w-1/2 md:h-24 text-white md:text-2xl mt-2 flex justify-center items-center gap-4 md:p-10 p-4 bg-[#4285F4] shadow-[4px_4px_0px_rgba(0,0,0,5)] rounded-2xl hover:bg-[#3367D6] transition-colors"
-            >
-              <div className="bg-white rounded-full p-2">
-                <Image
-                  src="/media/google.webp"
-                  alt="Google logo"
-                  width={96}
-                  height={96}
-                  className="w-8 h-8"
-                />
+            <div className="flex flex-col gap-2 w-full justify-evenlyitems-center text-sm">
+              <div className="flex flex-col gap-2 justify-evenly items-center h-full">
+                <h1 className="text-lg text-center font-bold font-mono">
+                  Collect intriguing and insightful physical, emotional, and
+                  developmental data for your child and see it all in one place.
+                </h1>
               </div>
-              <span className="text-white font-semibold">
-                Sign in with Google
-              </span>
-            </button>
+              <div className="mt-10 flex flex-col justify-center items-center h-full w-full">
+                <h1>Log in with Google to get started!</h1>
+                <button
+                  onClick={() => signIn("google", { callbackUrl: "/" })}
+                  className="md:w-1/2 md:h-24 text-white md:text-2xl mt-2 flex justify-center items-center gap-4 md:p-10 p-4 bg-[#4285F4] shadow-[4px_4px_0px_rgba(0,0,0,5)] rounded-2xl hover:bg-[#3367D6] transition-colors"
+                >
+                  <div className="bg-white rounded-full p-2">
+                    <Image
+                      src="/media/google.webp"
+                      alt="Google logo"
+                      width={96}
+                      height={96}
+                      className="w-8 h-8"
+                    />
+                  </div>
+                  <span className="text-white font-semibold">
+                    Sign in with Google
+                  </span>
+                </button>
+              </div>
+              <div className="flex flex-col justify-center items-center h-full w-full mt-10">
+                <h1 className="text-sm">Log in as as a guest to see the app</h1>
+                <button
+                  onClick={() => signIn("credentials", { callbackUrl: "/" })}
+                  className="md:w-1/3 md:h-20 text-white md:text-2xl mt-2 flex justify-center items-center gap-4 md:p-10 p-4 bg-[#4285F4] shadow-[4px_4px_0px_rgba(0,0,0,5)] rounded-2xl hover:bg-[#3367D6] transition-colors"
+                >
+                  <span className="text-white font-semibold">
+                    Log in as Guest
+                  </span>
+                </button>
+              </div>
+            </div>
           )}
         </div>
-
         <a
           className="absolute bottom-0 right-0 text-sm"
           href="https://www.vecteezy.com/free-vector/cartoon-eyes"

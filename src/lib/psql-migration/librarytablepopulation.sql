@@ -33,3 +33,5 @@ INSERT INTO phys_sym (symptom_name) VALUES
 ('Dry Skin'),
 ('Sneezing'),
 ('Lack of Appetite');
+
+INSERT INTO user_account (user_name, child_name) VALUES ('guest', 'Kid');
